@@ -46,21 +46,21 @@
   "problemMatcher": [],
   "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
 },
-    {
-      "label": "Lab: Deploy grouper",
-      "type": "shell",
-      "command": "tldeploylocal",
-      "args": ["${input:lab}", "grouper"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Lab: Debug proxy grouper",
-      "type": "shell",
-      "command": "ldebugproxy",
-      "args": ["${input:lab}", "grouper"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    }
+    // {
+    //   "label": "Lab: Deploy grouper",
+    //   "type": "shell",
+    //   "command": "tldeploylocal",
+    //   "args": ["${input:lab}", "grouper"],
+    //   "problemMatcher": [],
+    //   "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    // },
+    // {
+    //   "label": "Lab: Debug proxy grouper",
+    //   "type": "shell",
+    //   "command": "ldebugproxy",
+    //   "args": ["${input:lab}", "grouper"],
+    //   "problemMatcher": [],
+    //   "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    // }
   ]
 }
