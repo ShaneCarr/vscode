@@ -1,37 +1,168 @@
 {
   // ============================================================================
-  // VS Code User Settings (Shane) — “minimal visual noise + SDKMAN Java”
-  //
-  // Goals:
-  // - Kill pointless overlays (CodeLens, inline blame, bracket-pair rails)
-  // - Keep useful structure (indent guides + current line)
-  // - Use Separators for *method-only* separators (no try/catch/if noise)
-  // - Make Java tooling follow SDKMAN `current` symlink everywhere
+  // VS Code User Settings (Shane)
+  // Philosophy:
+  // - Minimize visual noise
+  // - Optimize parsing & reading speed (aging eyes)
+  // - Separate structure from decoration
+  // - Let OS control light/dark polarity
   // ============================================================================
 
   // --------------------------------------------------------------------------
-  // Markdown / formatting / lint noise
+  // Global UI / Theme behavior (science-based)
   // --------------------------------------------------------------------------
-  "markdown.validate.enabled": false,           // Disable built-in Markdown validation
-  "markdownlint.enable": false,                // Disable markdownlint extension
-  "editorConfig.enable": false,                // Disable EditorConfig (newline nags)
-  "files.insertFinalNewline": false,           // Don’t auto-add final newline
-  "files.trimFinalNewlines": false,            // Don’t trim final newlines
+  "window.zoomLevel": 1,
+  "window.autoDetectColorScheme": true,
 
-  // If markdownlint ever gets re-enabled, silence common annoyances
-  "markdownlint.config": {
-    "MD009": false, // trailing spaces
-    "MD041": false  // first line should be a top-level heading
-  },
+  // Preferred themes (positive polarity by day, low-halation by night)
+  "workbench.preferredLightColorTheme": "GitHub Light Default",
+  "workbench.preferredDarkColorTheme": "GitHub Dark Default",
 
-  // Ensure markdown files don’t get newline behavior overridden by language rules
+  // --------------------------------------------------------------------------
+  // Typography (eye strain reduction)
+  // --------------------------------------------------------------------------
+  "editor.fontFamily": "Blex Mono Nerd Font, monospace",
+  "editor.fontSize": 19,
+  "editor.lineHeight": 32,
+  "editor.letterSpacing": 0.4,
+  "editor.fontLigatures": true,
+
+  // --------------------------------------------------------------------------
+  // Core readability: reduce visual noise
+  // --------------------------------------------------------------------------
+  "editor.showUnused": false,
+  //"editor.renderValidationDecorations": "off",
+  "editor.lightbulb.enabled": "off",
+  "editor.parameterHints.enabled": false,
+  "editor.inlayHints.enabled": "off",
+
+  // Highlight suppression (schema-valid)
+  "editor.selectionHighlight": false,
+  "editor.wordHighlight": false,
+  "editor.wordHighlightStrong": false,
+  "editor.occurrencesHighlight": "off",
+  "editor.matchBrackets": "near",
+  "errorLens.enabled": false,
+  "errorLens.messageEnabled": false,
+  "errorLens.statusBarMessageEnabled": false,
+  "errorLens.gutterIconsEnabled": false,
+  "editor.renderValidationDecorations": "on",
+
+  // --------------------------------------------------------------------------
+  // Structure & spatial orientation
+  // --------------------------------------------------------------------------
+  "editor.guides.indentation": true,
+  "editor.guides.highlightActiveIndentation": true,
+
+  "editor.renderLineHighlight": "line",
+  "editor.cursorSurroundingLines": 6,
+  "editor.stickyScroll.enabled": true,
+  "editor.smoothScrolling": true,
+  // --------------------------------------------------------------------------
+  // Horizontal scanning reduction
+  // --------------------------------------------------------------------------
+  "editor.wordWrap": "bounded",
+  "editor.wordWrapColumn": 100,
+  "editor.wrappingIndent": "indent",
+  "breadcrumbs.enabled": true,
+  // --------------------------------------------------------------------------
+  // Explorer / minimap / chrome cleanup
+  // --------------------------------------------------------------------------
+  "editor.minimap.enabled": false,
+  "editor.codeLens": false,
+
+  "workbench.tree.indent": 20,
+  "workbench.tree.renderIndentGuides": "always",
+  "workbench.editor.revealIfOpen": true,
+
+  // --------------------------------------------------------------------------
+  // Terminal readability
+  // --------------------------------------------------------------------------
+  "terminal.integrated.fontFamily": "Blex Mono Nerd Font, monospace",
+  "terminal.integrated.fontSize": 15,
+  "terminal.integrated.lineHeight": 1.2,
+  "terminal.integrated.tabs.hideCondition": "never",
+  "terminal.integrated.enablePersistentSessions": false,
+
+  // --------------------------------------------------------------------------
+  // Rulers (soft guides only)
+  // --------------------------------------------------------------------------
+  "editor.rulers": [
+    { "column": 100, "color": "#FFFFFF14" }
+  ],
+
+  // --------------------------------------------------------------------------
+  // Color tuning (low contrast, no glow)
+  // --------------------------------------------------------------------------
+  // "workbench.colorCustomizations": {
+
+
+    
+    //     "editorIndentGuide.activeBackground1": "#ffc400",
+    // "editorIndentGuide.activeBackground2": "#ff0000",
+    // "editorIndentGuide.activeBackground3": "#a51283",
+    // "editorIndentGuide.activeBackground4": "#ff8c00",
+    // "editorIndentGuide.activeBackground5": "#ffc400",
+    // "editorIndentGuide.activeBackground6": "#ffc400",
+
+    //        // non-active indent guide colors
+    // "editorIndentGuide.background1": "#0066ff",
+    // "editorIndentGuide.background2": "#00e5ff",
+    // "editorIndentGuide.background3": "#00e5ff",
+    // "editorIndentGuide.background4": "#00e5ff",
+    // "editorIndentGuide.background5": "#00e5ff",
+    // "editorIndentGuide.background6": "#00e5ff",
+    // "editor.background": "#111214"
+
+
+//   "editorIndentGuide.activeBackground1": "#e6b800",
+// "editorIndentGuide.activeBackground2": "#cc0000",
+// "editorIndentGuide.activeBackground3": "#8a0f6b",
+// "editorIndentGuide.activeBackground4": "#cc7000",
+
+// "editorIndentGuide.background1": "#0055cc",
+// "editorIndentGuide.background2": "#00c8cc",
+// "editorIndentGuide.background3": "#00c8cc"
+ // },
+"workbench.colorCustomizations": {
+  // Keep your background if you like it
+  "editor.background": "#111214",
+
+  // Inactive guides: pastel hues + low alpha (subtle)
+  "editorIndentGuide.background1": "#AECBFA33", // pastel blue
+  "editorIndentGuide.background2": "#C5E1A533", // pastel green
+  "editorIndentGuide.background3": "#FFCC8033", // pastel orange
+  "editorIndentGuide.background4": "#F8BBD033", // pastel pink
+  "editorIndentGuide.background5": "#D1C4E933", // pastel lavender
+  "editorIndentGuide.background6": "#80DEEA33", // pastel cyan
+
+  // Active guide: same hues, higher alpha (obvious “where am I”)
+  "editorIndentGuide.activeBackground1": "#AECBFA88",
+  "editorIndentGuide.activeBackground2": "#C5E1A588",
+  "editorIndentGuide.activeBackground3": "#FFCC8088",
+  "editorIndentGuide.activeBackground4": "#F8BBD088",
+  "editorIndentGuide.activeBackground5": "#D1C4E988",
+  "editorIndentGuide.activeBackground6": "#80DEEA88"
+},
+  // --------------------------------------------------------------------------
+  // Markdown / formatting noise
+  // --------------------------------------------------------------------------
+  "markdown.validate.enabled": false,
+  "markdownlint.enable": false,
+  "editorConfig.enable": false,
+
   "[markdown]": {
     "files.insertFinalNewline": false,
     "files.trimFinalNewlines": false
   },
 
+  "markdownlint.config": {
+    "MD009": false,
+    "MD041": false
+  },
+
   // --------------------------------------------------------------------------
-  // Language tooling basics
+  // Language basics
   // --------------------------------------------------------------------------
   "python.defaultInterpreterPath": "/opt/homebrew/bin/python3.13",
 
@@ -39,157 +170,60 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
-  // Azure extension (keep empty unless you want a default tenant)
-  "@azure.argTenant": "",
-
-  // Markdown preview enhanced theme
-  "markdown-preview-enhanced.previewTheme": "atom-light.css",
-
-  // YAML-ish formats: consistent indentation + formatter
-  "[dockercompose]": {
-    "editor.insertSpaces": true,
-    "editor.tabSize": 2,
-    "editor.autoIndent": "advanced",
-    "editor.quickSuggestions": {
-      "other": true,
-      "comments": false,
-      "strings": true
-    },
-    "editor.defaultFormatter": "redhat.vscode-yaml"
-  },
-
-  "[github-actions-workflow]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml"
-  },
-
-  // Misc extensions
-  "geminicodeassist.displayInlineContextHint": false,
-  "chat.mcp.gallery.enabled": true,
-
   // --------------------------------------------------------------------------
-  // UI readability / ergonomics
+  // Separators extension (method-only, top-level)
   // --------------------------------------------------------------------------
-  "window.zoomLevel": 1, // scales ALL UI text (sidebar, tabs, menus)
-
-  "editor.fontFamily": "Blex Mono Nerd Font, monospace",
-  "editor.fontSize": 18,
-  "editor.lineHeight": 30,
-  "editor.letterSpacing": 0.2,
-  "editor.fontLigatures": true, 
-  // Low-noise editor
-  "editor.minimap.enabled": false,
-  "editor.bracketPairColorization.enabled": true, // keep bracket coloring (useful)
-  "editor.guides.indentation": true,              // keep indent guides (you like these)
-
-  // IMPORTANT: disable bracket-pair *guides* (these create extra “rails”)
-  "editor.guides.bracketPairs": false,
-  "editor.guides.bracketPairsHorizontal": false,
-  "editor.guides.highlightActiveIndentation": false,
-
-  // Kill inline overlays / blame / CodeLens spam
-  "editor.codeLens": false,
-  "gitlens.currentLine.enabled": false,
-  "gitlens.codeLens.enabled": false,
-
-  // Current line highlight (this is the “green line” you said is OK)
-  // If you ever want LESS: use "gutter" or "none"
-  "editor.renderLineHighlight": "line",
-
-  // Explorer / file tree readability
-  "workbench.tree.indent": 20,
-  "workbench.tree.renderIndentGuides": "always",
-
-  // Terminal readability
-  "terminal.integrated.fontFamily": "Blex Mono Nerd Font, monospace",
-  "terminal.integrated.fontSize": 15,
-  "terminal.integrated.lineHeight": 1.2,
-
-  // --------------------------------------------------------------------------
-  // Separators extension — METHOD-ONLY separators
-  // --------------------------------------------------------------------------
-  // This is the key: ONLY draw separators for Methods (not blocks / not folding)
   "separators.enabledSymbols": ["Methods"],
-  "separators.enabledFoldingRanges": [],        // no comment/import/region separators
-  "separators.maxDepth": 0,                     // top-level only (prevents nested noise)
-  "separators.minimumLineCount": 8,             // ignore tiny methods
-  "separators.location": "aboveTheSymbol",      // one line above each method
+  "separators.enabledFoldingRanges": [],
+  "separators.maxDepth": 0,
+  "separators.minimumLineCount": 8,
+  "separators.location": "aboveTheSymbol",
   "separators.methods.borderWidth": 1,
   "separators.methods.borderStyle": "solid",
 
   // --------------------------------------------------------------------------
-  // Workflow / small niceties
+  // Git / blame suppression
   // --------------------------------------------------------------------------
-  "files.autoSave": "afterDelay",
-  "workbench.colorTheme": "Bee Theme 2.0",
-  "editor.linkedEditing": true,
-
-  // Rulers are subtle guides (not separators). Safe.
-  "editor.rulers": [
-    { "column": 80,  "color": "#00FF0010" },
-    { "column": 100, "color": "#BDB76B15" },
-    { "column": 120, "color": "#FA807219" }
-  ],
-
-  "editor.unicodeHighlight.includeComments": true,
-
-  // Theme tweaks (optional cosmetic tuning)
-  "workbench.colorCustomizations": {
-    "[Default Dark Modern]": {
-      "tab.activeBorderTop": "#00FF00",
-      "tab.unfocusedActiveBorderTop": "#00FF0088",
-      "textCodeBlock.background": "#00000055"
-    },
-    "editor.wordHighlightStrongBorder": "#FF6347",
-    "editor.wordHighlightBorder": "#FFD700",
-    "editor.selectionHighlightBorder": "#A9A9A9"
-
-    // Optional: make method separator lines faint.
-    // Uncomment if separators feel too strong.
-    // "separators.methods.borderColor": "#FFFFFF22"
-  },
-
-  "workbench.editor.revealIfOpen": true,
-  "emmet.variables": { "lang": "en" },
-
-  // Spell + trailing spaces helpers
-  "cSpell.diagnosticLevel": "Hint",
-  "trailing-spaces.backgroundColor": "rgba(255,0,0,0.1)",
-  "trailing-spaces.includeEmptyLines": false,
-
-  "terminal.integrated.tabs.hideCondition": "never",
-  "terminal.integrated.enablePersistentSessions": false,
+  "gitlens.currentLine.enabled": false,
+  "gitlens.codeLens.enabled": false,
 
   // --------------------------------------------------------------------------
-  // Java — stable baseline (SDKMAN is source of truth)
+  // Java (SDKMAN is source of truth)
   // --------------------------------------------------------------------------
-  "java.compile.nullAnalysis.mode": "automatic",
   "java.configuration.detectJdksAtStart": true,
-  "java.configuration.updateBuildConfiguration": "automatic",
-  "java.debug.settings.hotCodeReplace": "auto",
-  "java.dependency.packagePresentation": "hierarchical",
-  "java.maxConcurrentBuilds": 12,
-  "java.sources.organizeImports.staticStarThreshold": 1,
-    "java.debug.settings.showToString": false,
-      "java.debug.settings.stepping.skipSynthetics": true,
-  "java.debug.settings.stepping.skipStaticInitializers": true,
-  "java.debug.settings.stepping.skipConstructors": true,
-  "java.debug.settings.showLogicalStructure": false,
-  "java.debug.settings.maxStringLength": 2000,
-    "java.debug.settings.jdwp.requestTimeout": 20000,
-    "java.debug.settings.jdwp.async": "on",
-    "java.debug.settings.stepping.skipClasses": [
-    "$JDK",
-    "$Libraries",
-    "org.springframework.*",
-    "com.sun.*",
-    "java.*",
-    "javax.*"
-  ],
-  // Force JDT LS + Gradle import to follow SDKMAN `current` symlink
+  "java.configuration.updateBuildConfiguration": "interactive",
   "java.jdt.ls.java.home": "/Users/shane/.sdkman/candidates/java/current",
   "java.import.gradle.java.home": "/Users/shane/.sdkman/candidates/java/current",
 
-  // Terminal: default follows SDKMAN current (per-repo via .sdkmanrc)
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.maxConcurrentBuilds": 12,
+  "java.sources.organizeImports.staticStarThreshold": 1,
+
+  "java.debug.settings.hotCodeReplace": "never",
+  "java.debug.settings.showToString": false,
+  "java.debug.settings.showLogicalStructure": false,
+  "java.debug.settings.maxStringLength": 2000,
+  "java.debug.settings.stepping.skipSynthetics": true,
+  "java.debug.settings.stepping.skipStaticInitializers": true,
+  "java.debug.settings.stepping.skipConstructors": true,
+  "debug.inlineValues": "off",
+  "debug.autoExpandLazyVariables": "off",
+  "java.debug.settings.stepping.skipClasses": [
+    "$JDK",
+    "$Libraries",
+    "java.*",
+    "javax.*",
+    "org.springframework.*",
+    "org.apache.*",
+    "org.slf4j.*",
+    "ch.qos.logback.*",
+    "reactor.core.*",
+    "kotlin.*"
+  ],
+
+  // --------------------------------------------------------------------------
+  // Terminal / Maven / PlantUML follow SDKMAN
+  // --------------------------------------------------------------------------
   "terminal.integrated.profiles.osx": {
     "zsh": {
       "path": "zsh",
@@ -200,7 +234,6 @@
   },
   "terminal.integrated.defaultProfile.osx": "zsh",
 
-  // Maven: keep JAVA_HOME consistent (prefer repo mvnw/mvn on PATH)
   "maven.terminal.customEnv": [
     {
       "environmentVariable": "JAVA_HOME",
@@ -208,15 +241,14 @@
     }
   ],
 
-  // PlantUML: follow SDKMAN current for consistency
   "plantuml.java": "/Users/shane/.sdkman/candidates/java/current/bin/java",
 
-  // Disable NetBeans Java support (avoid competing tooling)
+  // --------------------------------------------------------------------------
+  // Disable competing language servers
+  // --------------------------------------------------------------------------
   "netbeans.javaSupport.enabled": false,
   "kotlin.languageServer.enabled": false,
   "kotlin.debugAdapter.enabled": false,
   "jdk.telemetry.enabled": false,
-  "yaml.schemas": {
-    "file:///Users/shane/.vscode/extensions/docsmsft.docs-yaml-1.0.6/dist/toc.schema.json": "/toc\\.yml/i"
-  }
+  "geminicodeassist.displayInlineContextHint": false
 }
