@@ -5,7 +5,7 @@
       "id": "lab",
       "type": "promptString",
       "description": "Lab name (e.g. tl42, dogfood-17)",
-      "default": "tl1"
+      "default": "$LAB"
     },
     {
       "id": "service",
@@ -20,6 +20,50 @@
         "grouper2-api"
       ],
       "default": "grouper"
+    },
+    {
+      "id": "testName",
+      "type": "promptString",
+      "description": "Surefire test selector (e.g. FooTest or FooTest#testBar)",
+      "default": "*Test"
+    },
+
+    // Optional, but very useful if you're using SDKMAN:
+    // (If you don't want this yet, delete this input and the one Maven task below that references it.)
+    {
+      "id": "java",
+      "type": "pickString",
+      "description": "Java version (sdk use java ...)",
+      "options": ["17.0.10-tem", "21.0.2-tem"],
+      "default": "17.0.10-tem"
+    },
+
+    // Optional yamcurl inputs (delete if you don't want yamcurl tasks):
+    {
+      "id": "url",
+      "type": "promptString",
+      "description": "URL to curl",
+      "default": "https://www.yammer.com/api/v1/networks/current"
+    },
+    {
+      "id": "centralPath",
+      "type": "promptString",
+      "description": "central <service/path>",
+      "default": "workfeed-web/api/v1/networks/current"
+    },
+
+    // Optional ICM inputs (delete if you don't want ICM tasks):
+    {
+      "id": "icmQuery",
+      "type": "promptString",
+      "description": "ICM query / criteria",
+      "default": "OwningServiceId eq 20732"
+    },
+    {
+      "id": "icmCount",
+      "type": "promptString",
+      "description": "How many incidents",
+      "default": "5"
     }
   ],
   "tasks": [
@@ -29,38 +73,153 @@
       "command": "echo hello",
       "problemMatcher": []
     },
+
     {
-  "label": "Lab: Deploy (tldeploylocal) [pick lab + service]",
-  "type": "shell",
-  "command": "zsh",
-  "args": ["-lic", "tldeploylocal ${input:lab} ${input:service}"],
-  "problemMatcher": [],
-  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-}
-,
-{
-  "label": "Lab: Debug Proxy (ldebugproxy) [pick lab + service]",
-  "type": "shell",
-  "command": "zsh",
-  "args": ["-lic", "ldebugproxy ${input:lab} ${input:service}"],
-  "problemMatcher": [],
-  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-},
-    // {
-    //   "label": "Lab: Deploy grouper",
-    //   "type": "shell",
-    //   "command": "tldeploylocal",
-    //   "args": ["${input:lab}", "grouper"],
-    //   "problemMatcher": [],
-    //   "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    // },
-    // {
-    //   "label": "Lab: Debug proxy grouper",
-    //   "type": "shell",
-    //   "command": "ldebugproxy",
-    //   "args": ["${input:lab}", "grouper"],
-    //   "problemMatcher": [],
-    //   "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    // }
+      "label": "Lab: Deploy (tldeploylocal) [pick lab + service]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "tldeploylocal ${input:lab} ${input:service}"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Lab: Debug Proxy (tldebugproxy) [pick lab + service]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "tldebugproxy ${input:lab} ${input:service}"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    {
+      "label": "Lab: Logs (tlapplogs) [pick lab + service]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "tlapplogs ${input:lab} ${input:service}"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Lab: Request Logs (tlrequestlogs) [pick lab + service]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "tlrequestlogs ${input:lab} ${input:service}"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Lab: Pod Status (tlps) [pick lab]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "tlps ${input:lab}"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Lab: Deploy Logs (tldeploylogs) [pick lab + service]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "tldeploylogs ${input:lab} ${input:service}"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Lab: Shell (tlshell) [pick lab + service]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "tlshell ${input:lab} ${input:service}"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": false }
+    },
+    {
+      "label": "Lab: Config (tlconfig) [pick lab + service]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "tlconfig ${input:lab} ${input:service}"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Lab: Kill Proxies (tlnoproxy)",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "tlnoproxy"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    // Maven tasks
+    // Note: problemMatcher "$maven" is optional; if VS Code doesn't know it, it won't break execution.
+    // If you want zero ambiguity, replace ["$maven"] with [].
+    {
+      "label": "Maven: test (fast)",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "mvn -q -DskipITs test"],
+      "problemMatcher": ["$maven"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Maven: test (single) [prompt]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "mvn -Dtest='${input:testName}' test"],
+      "problemMatcher": ["$maven"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Maven: package (skip tests)",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "mvn -DskipTests package"],
+      "problemMatcher": ["$maven"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    // SDKMAN + Maven (optional)
+    {
+      "label": "Maven: test (fast) [pick java via sdkman]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "sdk use java ${input:java} >/dev/null && mvn -q -DskipITs test"],
+      "problemMatcher": ["$maven"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    // yamcurl tasks (optional)
+    {
+      "label": "YamCurl: Copy AAD token",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "yamcurl copy"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "YamCurl: curl URL [prompt]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "yamcurl curl '${input:url}'"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "YamCurl: central service path [prompt]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "yamcurl central '${input:centralPath}'"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    // ICM task (optional)
+    {
+      "label": "ICM: Report [prompt]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "icmreport '${input:icmQuery}' ${input:icmCount}"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    }
   ]
 }
