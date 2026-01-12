@@ -30,21 +30,22 @@
       "problemMatcher": []
     },
     {
-      "label": "Lab: Deploy (tldeploylocal) [pick lab + service]",
-      "type": "shell",
-      "command": "tldeploylocal",
-      "args": ["${input:lab}", "${input:service}"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Lab: Debug Proxy (ldebugproxy) [pick lab + service]",
-      "type": "shell",
-      "command": "ldebugproxy",
-      "args": ["${input:lab}", "${input:service}"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
+  "label": "Lab: Deploy (tldeploylocal) [pick lab + service]",
+  "type": "shell",
+  "command": "zsh",
+  "args": ["-lic", "tldeploylocal ${input:lab} ${input:service}"],
+  "problemMatcher": [],
+  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+}
+,
+{
+  "label": "Lab: Debug Proxy (ldebugproxy) [pick lab + service]",
+  "type": "shell",
+  "command": "zsh",
+  "args": ["-lic", "ldebugproxy ${input:lab} ${input:service}"],
+  "problemMatcher": [],
+  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+},
     {
       "label": "Lab: Deploy grouper",
       "type": "shell",
