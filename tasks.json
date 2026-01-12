@@ -1,0 +1,65 @@
+{
+  "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "lab",
+      "type": "promptString",
+      "description": "Lab name (e.g. tl42, dogfood-17)",
+      "default": "tl1"
+    },
+    {
+      "id": "service",
+      "type": "pickString",
+      "description": "Service to operate on",
+      "options": [
+        "grouper",
+        "grouper-service",
+        "reporter",
+        "grouper-client",
+        "grouper2-client",
+        "grouper2-api"
+      ],
+      "default": "grouper"
+    }
+  ],
+  "tasks": [
+    {
+      "label": "SANITY: echo hello",
+      "type": "shell",
+      "command": "echo hello",
+      "problemMatcher": []
+    },
+    {
+      "label": "Lab: Deploy (tldeploylocal) [pick lab + service]",
+      "type": "shell",
+      "command": "tldeploylocal",
+      "args": ["${input:lab}", "${input:service}"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Lab: Debug Proxy (ldebugproxy) [pick lab + service]",
+      "type": "shell",
+      "command": "ldebugproxy",
+      "args": ["${input:lab}", "${input:service}"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Lab: Deploy grouper",
+      "type": "shell",
+      "command": "tldeploylocal",
+      "args": ["${input:lab}", "grouper"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Lab: Debug proxy grouper",
+      "type": "shell",
+      "command": "ldebugproxy",
+      "args": ["${input:lab}", "grouper"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    }
+  ]
+}

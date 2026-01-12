@@ -1,0 +1,94 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "TeamLabs: Remote Attach (JDWP 30166)",
+      "type": "java",
+      "request": "attach",
+      "hostName": "localhost",
+      "port": 30166
+    },
+
+    {
+      "name": "Local: Launch Main (pick class/project)",
+      "type": "java",
+      "request": "launch",
+      "mainClass": "${command:java.pickMainClass}",
+      "projectName": "${command:java.pickProject}",
+      "console": "internalConsole"
+    },
+
+    {
+      "name": "Local: Launch Main (with JDWP :5005)",
+      "type": "java",
+      "request": "launch",
+      "mainClass": "${command:java.pickMainClass}",
+      "projectName": "${command:java.pickProject}",
+      "vmArgs": "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005",
+      "console": "internalConsole"
+    },
+
+    {
+      "name": "Local: Attach (JDWP 5005)",
+      "type": "java",
+      "request": "attach",
+      "hostName": "localhost",
+      "port": 5005
+    },
+
+    {
+      "name": "Tests: Run (Maven test)",
+      "type": "java",
+      "request": "launch",
+      "mainClass": "${command:java.pickMainClass}",
+      "projectName": "${command:java.pickProject}",
+      "preLaunchTask": "mvn: test",
+      "noDebug": true
+    },
+
+    {
+      "name": "Tests: Debug (use Testing view)",
+      "type": "java",
+      "request": "launch",
+      "mainClass": "${command:java.test.pickTest}",
+      "projectName": "${command:java.pickProject}"
+    },
+
+    {
+      "name": "Coverage: Run (Maven verify + JaCoCo report)",
+      "type": "java",
+      "request": "launch",
+      "mainClass": "${command:java.pickMainClass}",
+      "projectName": "${command:java.pickProject}",
+      "preLaunchTask": "mvn: verify (coverage)",
+      "noDebug": true
+    },
+
+    {
+      "name": "Checkstyle: Run (Maven)",
+      "type": "java",
+      "request": "launch",
+      "mainClass": "${command:java.pickMainClass}",
+      "projectName": "${command:java.pickProject}",
+      "preLaunchTask": "mvn: checkstyle",
+      "noDebug": true
+    },
+
+    {
+      "name": "Quality: Verify (tests + coverage + style)",
+      "type": "java",
+      "request": "launch",
+      "mainClass": "${command:java.pickMainClass}",
+      "projectName": "${command:java.pickProject}",
+      "preLaunchTask": "mvn: quality",
+      "noDebug": true
+    }
+  ],
+
+  "compounds": [
+    {
+      "name": "Local: Launch (JDWP 5005) + Attach",
+      "configurations": ["Local: Launch Main (with JDWP :5005)", "Local: Attach (JDWP 5005)"]
+    }
+  ]
+}
