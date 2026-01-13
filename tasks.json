@@ -155,7 +155,7 @@
       "label": "Maven: test (fast)",
       "type": "shell",
       "command": "zsh",
-      "args": ["-lic", "mvn -q -DskipITs test"],
+      "args": ["-lic", "mvn  -DskipITs test"],
       "problemMatcher": ["$maven"],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
@@ -181,7 +181,7 @@
       "label": "Maven: test (fast) [pick java via sdkman]",
       "type": "shell",
       "command": "zsh",
-      "args": ["-lic", "sdk use java ${input:java} >/dev/null && mvn -q -DskipITs test"],
+      "args": ["-lic", "sdk use java ${input:java} >/dev/null && mvn  -DskipITs test"],
       "problemMatcher": ["$maven"],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
@@ -224,7 +224,7 @@
   "label": "Maven: clean",
   "type": "shell",
   "command": "zsh",
-  "args": ["-lic", "mvn -q clean"],
+  "args": ["-lic", "mvn clean"],
   "problemMatcher": ["$maven"],
   "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
 },
@@ -234,7 +234,7 @@
   "command": "zsh",
   "args": [
     "-lic",
-    "mvn -q clean package -DskipTests -Djacoco.skip=true -DskipITs -Dcheckstyle.skip=true -Dspotbugs.skip=true"
+    "mvn  clean package -DskipTests -Djacoco.skip=true -DskipITs -Dcheckstyle.skip=true -Dspotbugs.skip=true"
   ],
   "problemMatcher": ["$maven"],
   "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
@@ -245,7 +245,7 @@
   "command": "zsh",
   "args": [
     "-lic",
-    "mvn -q package -DskipTests -Djacoco.skip=true -DskipITs -Dcheckstyle.skip=true -Dspotbugs.skip=true"
+    "mvn package -DskipTests -Djacoco.skip=true -DskipITs -Dcheckstyle.skip=true -Dspotbugs.skip=true"
   ],
   "problemMatcher": ["$maven"],
   "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
@@ -257,7 +257,7 @@
   "label": "Maven: coverage (JaCoCo) [clean verify + report]",
   "type": "shell",
   "command": "zsh",
-  "args": ["-lic", "mvn -q clean verify jacoco:report"],
+  "args": ["-lic", "mvn clean verify jacoco:report"],
   "problemMatcher": ["$maven"],
   "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
 },
@@ -265,7 +265,7 @@
   "label": "Maven: coverage (profile=coverage) [NEEDS CONFIRMATION]",
   "type": "shell",
   "command": "zsh",
-  "args": ["-lic", "mvn -q clean verify -Pcoverage"],
+  "args": ["-lic", "mvn  clean verify -Pcoverage"],
   "problemMatcher": ["$maven"],
   "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
 },
@@ -273,7 +273,7 @@
   "label": "Maven: coverage (unit tests only) [skip ITs]",
   "type": "shell",
   "command": "zsh",
-  "args": ["-lic", "mvn -q clean test jacoco:report -DskipITs"],
+  "args": ["-lic", "mvn  clean test jacoco:report -DskipITs"],
   "problemMatcher": ["$maven"],
   "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
 },
@@ -284,7 +284,7 @@
   "label": "Maven: dependency tree (verbose)",
   "type": "shell",
   "command": "zsh",
-  "args": ["-lic", "mvn -q -Dverbose dependency:tree"],
+  "args": ["-lic", "mvn  -Dverbose dependency:tree"],
   "problemMatcher": ["$maven"],
   "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
 },
@@ -292,7 +292,7 @@
   "label": "Maven: effective POM",
   "type": "shell",
   "command": "zsh",
-  "args": ["-lic", "mvn -q help:effective-pom"],
+  "args": ["-lic", "mvn  help:effective-pom"],
   "problemMatcher": ["$maven"],
   "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
 }
