@@ -17,21 +17,21 @@
   // Preferred themes (positive polarity by day, low-halation by night)
   "workbench.preferredLightColorTheme": "GitHub Light Default",
   "workbench.preferredDarkColorTheme": "GitHub Dark Default",
-"workbench.list.fontSize": 22,
-"workbench.list.lineHeight": 28,
-"workbench.tree.fontSize": 22,
-"workbench.list.fontFamily": "Blex Mono Nerd Font, monospace",
+  "workbench.list.fontSize": 22,
+  "workbench.list.lineHeight": 28,
+  "workbench.tree.fontSize": 22,
+  "workbench.list.fontFamily": "Blex Mono Nerd Font, monospace",
   // --------------------------------------------------------------------------
   // Typography (eye strain reduction)
   // --------------------------------------------------------------------------
   //"editor.fontFamily": "Blex Mono Nerd Font, monospace",
-//"editor.fontFamily": "Blex Mono Nerd Font Bold",
-"editor.fontFamily": "BlexMono Nerd Font Mono",
+  //"editor.fontFamily": "Blex Mono Nerd Font Bold",
+  "editor.fontFamily": "BlexMono Nerd Font Mono",
   "editor.fontSize": 22,
   "editor.lineHeight": 32,
   "editor.letterSpacing": 0.4,
   "editor.fontLigatures": true,
-"editor.fontWeight":"500",
+  "editor.fontWeight": "500",
   // --------------------------------------------------------------------------
   // Core readability: reduce visual noise
   // --------------------------------------------------------------------------
@@ -42,17 +42,16 @@
   "editor.inlayHints.enabled": "off",
 
   // Highlight suppression (schema-valid)
-  "editor.selectionHighlight": false,
+  "editor.selectionHighlight": true,
   "editor.wordHighlight": false,
   "editor.wordHighlightStrong": false,
-  "editor.occurrencesHighlight": "off",
+  "editor.occurrencesHighlight":"singleFile",
   "editor.matchBrackets": "near",
   "errorLens.enabled": false,
   "errorLens.messageEnabled": false,
   "errorLens.statusBarMessageEnabled": false,
   "errorLens.gutterIconsEnabled": false,
   "editor.renderValidationDecorations": "on",
-
   // --------------------------------------------------------------------------
   // Structure & spatial orientation
   // --------------------------------------------------------------------------
@@ -92,81 +91,76 @@
   // --------------------------------------------------------------------------
   // Rulers (soft guides only)
   // --------------------------------------------------------------------------
-  "editor.rulers": [
-    { "column": 100, "color": "#FFFFFF14" }
-  ],
+  "editor.rulers": [{ "column": 100, "color": "#FFFFFF14" }],
 
   // --------------------------------------------------------------------------
   // Color tuning (low contrast, no glow)
   // --------------------------------------------------------------------------
   // "workbench.colorCustomizations": {
 
+  //     "editorIndentGuide.activeBackground1": "#ffc400",
+  // "editorIndentGuide.activeBackground2": "#ff0000",
+  // "editorIndentGuide.activeBackground3": "#a51283",
+  // "editorIndentGuide.activeBackground4": "#ff8c00",
+  // "editorIndentGuide.activeBackground5": "#ffc400",
+  // "editorIndentGuide.activeBackground6": "#ffc400",
 
-    
-    //     "editorIndentGuide.activeBackground1": "#ffc400",
-    // "editorIndentGuide.activeBackground2": "#ff0000",
-    // "editorIndentGuide.activeBackground3": "#a51283",
-    // "editorIndentGuide.activeBackground4": "#ff8c00",
-    // "editorIndentGuide.activeBackground5": "#ffc400",
-    // "editorIndentGuide.activeBackground6": "#ffc400",
+  //        // non-active indent guide colors
+  // "editorIndentGuide.background1": "#0066ff",
+  // "editorIndentGuide.background2": "#00e5ff",
+  // "editorIndentGuide.background3": "#00e5ff",
+  // "editorIndentGuide.background4": "#00e5ff",
+  // "editorIndentGuide.background5": "#00e5ff",
+  // "editorIndentGuide.background6": "#00e5ff",
+  // "editor.background": "#111214"
 
-    //        // non-active indent guide colors
-    // "editorIndentGuide.background1": "#0066ff",
-    // "editorIndentGuide.background2": "#00e5ff",
-    // "editorIndentGuide.background3": "#00e5ff",
-    // "editorIndentGuide.background4": "#00e5ff",
-    // "editorIndentGuide.background5": "#00e5ff",
-    // "editorIndentGuide.background6": "#00e5ff",
-    // "editor.background": "#111214"
+  //   "editorIndentGuide.activeBackground1": "#e6b800",
+  // "editorIndentGuide.activeBackground2": "#cc0000",
+  // "editorIndentGuide.activeBackground3": "#8a0f6b",
+  // "editorIndentGuide.activeBackground4": "#cc7000",
 
+  // "editorIndentGuide.background1": "#0055cc",
+  // "editorIndentGuide.background2": "#00c8cc",
+  // "editorIndentGuide.background3": "#00c8cc"
+  // },
+  "workbench.colorCustomizations": {
+    "[GitHub Dark Default]": {
+      "editor.background": "#111214",
 
-//   "editorIndentGuide.activeBackground1": "#e6b800",
-// "editorIndentGuide.activeBackground2": "#cc0000",
-// "editorIndentGuide.activeBackground3": "#8a0f6b",
-// "editorIndentGuide.activeBackground4": "#cc7000",
+      "editorIndentGuide.background1": "#AECBFA33",
+      "editorIndentGuide.background2": "#C5E1A533",
+      "editorIndentGuide.background3": "#FFCC8033",
+      "editorIndentGuide.background4": "#F8BBD033",
+      "editorIndentGuide.background5": "#D1C4E933",
+      "editorIndentGuide.background6": "#80DEEA33",
 
-// "editorIndentGuide.background1": "#0055cc",
-// "editorIndentGuide.background2": "#00c8cc",
-// "editorIndentGuide.background3": "#00c8cc"
- // },
-"workbench.colorCustomizations": {
-  "[GitHub Dark Default]": {
-    "editor.background": "#111214",
+      "editorIndentGuide.activeBackground1": "#AECBFA88",
+      "editorIndentGuide.activeBackground2": "#C5E1A588",
+      "editorIndentGuide.activeBackground3": "#FFCC8088",
+      "editorIndentGuide.activeBackground4": "#F8BBD088",
+      "editorIndentGuide.activeBackground5": "#D1C4E988",
+      "editorIndentGuide.activeBackground6": "#80DEEA88"
+    },
 
-    "editorIndentGuide.background1": "#AECBFA33",
-    "editorIndentGuide.background2": "#C5E1A533",
-    "editorIndentGuide.background3": "#FFCC8033",
-    "editorIndentGuide.background4": "#F8BBD033",
-    "editorIndentGuide.background5": "#D1C4E933",
-    "editorIndentGuide.background6": "#80DEEA33",
+    "[GitHub Light Default]": {
+      // Don’t override editor.background here; let the light theme be light.
 
-    "editorIndentGuide.activeBackground1": "#AECBFA88",
-    "editorIndentGuide.activeBackground2": "#C5E1A588",
-    "editorIndentGuide.activeBackground3": "#FFCC8088",
-    "editorIndentGuide.activeBackground4": "#F8BBD088",
-    "editorIndentGuide.activeBackground5": "#D1C4E988",
-    "editorIndentGuide.activeBackground6": "#80DEEA88"
+      // Light theme needs darker guides (same hues, but with black-ish alpha)
+      "editorIndentGuide.background1": "#1A73E833",
+      "editorIndentGuide.background2": "#34A85333",
+      "editorIndentGuide.background3": "#FBBC0533",
+      "editorIndentGuide.background4": "#EA433533",
+      "editorIndentGuide.background5": "#7E57C233",
+      "editorIndentGuide.background6": "#00ACC133",
+
+      "editorIndentGuide.activeBackground1": "#1A73E888",
+      "editorIndentGuide.activeBackground2": "#34A85388",
+      "editorIndentGuide.activeBackground3": "#FBBC0588",
+      "editorIndentGuide.activeBackground4": "#EA433588",
+      "editorIndentGuide.activeBackground5": "#7E57C288",
+      "editorIndentGuide.activeBackground6": "#00ACC188"
+    }
   },
-
-  "[GitHub Light Default]": {
-    // Don’t override editor.background here; let the light theme be light.
-
-    // Light theme needs darker guides (same hues, but with black-ish alpha)
-    "editorIndentGuide.background1": "#1A73E833",
-    "editorIndentGuide.background2": "#34A85333",
-    "editorIndentGuide.background3": "#FBBC0533",
-    "editorIndentGuide.background4": "#EA433533",
-    "editorIndentGuide.background5": "#7E57C233",
-    "editorIndentGuide.background6": "#00ACC133",
-
-    "editorIndentGuide.activeBackground1": "#1A73E888",
-    "editorIndentGuide.activeBackground2": "#34A85388",
-    "editorIndentGuide.activeBackground3": "#FBBC0588",
-    "editorIndentGuide.activeBackground4": "#EA433588",
-    "editorIndentGuide.activeBackground5": "#7E57C288",
-    "editorIndentGuide.activeBackground6": "#00ACC188"
-  }
-},
   // --------------------------------------------------------------------------
   // Markdown / formatting noise
   // --------------------------------------------------------------------------
@@ -225,7 +219,7 @@
   "java.debug.settings.hotCodeReplace": "never",
   "java.debug.settings.showToString": false,
   "java.debug.settings.showLogicalStructure": false,
-  "java.debug.settings.maxStringLength": 2000,
+  "java.debug.settings.maxStringLength": 300,
   "java.debug.settings.stepping.skipSynthetics": true,
   "java.debug.settings.stepping.skipStaticInitializers": true,
   "java.debug.settings.stepping.skipConstructors": true,
