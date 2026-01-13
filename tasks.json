@@ -1,5 +1,9 @@
 {
   "version": "2.0.0",
+
+  // --------------------------------------------------------------------------------------
+  // Inputs
+  // --------------------------------------------------------------------------------------
   "inputs": [
     {
       "id": "lab",
@@ -22,14 +26,18 @@
       "default": "grouper"
     },
     {
+      "id": "module",
+      "type": "pickString",
+      "description": "Maven module (artifactId) for -pl",
+      "options": ["grouper", "grouper-service", "reporter", "grouper-client", "grouper2-client", "grouper2-api"],
+      "default": "grouper2-api"
+    },
+    {
       "id": "testName",
       "type": "promptString",
       "description": "Surefire test selector (e.g. FooTest or FooTest#testBar)",
       "default": "*Test"
     },
-
-    // Optional, but very useful if you're using SDKMAN:
-    // (If you don't want this yet, delete this input and the one Maven task below that references it.)
     {
       "id": "java",
       "type": "pickString",
@@ -37,8 +45,6 @@
       "options": ["17.0.10-tem", "21.0.2-tem"],
       "default": "17.0.10-tem"
     },
-
-    // Optional yamcurl inputs (delete if you don't want yamcurl tasks):
     {
       "id": "url",
       "type": "promptString",
@@ -51,8 +57,6 @@
       "description": "central <service/path>",
       "default": "workfeed-web/api/v1/networks/current"
     },
-
-    // Optional ICM inputs (delete if you don't want ICM tasks):
     {
       "id": "icmQuery",
       "type": "promptString",
@@ -66,7 +70,14 @@
       "default": "5"
     }
   ],
+
+  // --------------------------------------------------------------------------------------
+  // Tasks
+  // --------------------------------------------------------------------------------------
   "tasks": [
+    // ======================================================================================
+    // Sanity / Debug
+    // ======================================================================================
     {
       "label": "SANITY: echo hello",
       "type": "shell",
@@ -74,6 +85,9 @@
       "problemMatcher": []
     },
 
+    // ======================================================================================
+    // Lab (Yamdev)
+    // ======================================================================================
     {
       "label": "Lab: Deploy (tldeploylocal) [pick lab + service]",
       "type": "shell",
@@ -90,7 +104,6 @@
       "problemMatcher": [],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
-
     {
       "label": "Lab: Logs (tlapplogs) [pick lab + service]",
       "type": "shell",
@@ -148,30 +161,109 @@
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
 
-    // Maven tasks
-    // Note: problemMatcher "$maven" is optional; if VS Code doesn't know it, it won't break execution.
-    // If you want zero ambiguity, replace ["$maven"] with [].
+    // ======================================================================================
+    // Maven: Fast paths (high ROI for “I keep seeing stale / mismatched builds”)
+    //
+    // Notes:
+    // - The "-am" (also-make) tasks rebuild dependent modules in the same reactor build.
+    //   This is the #1 antidote to “works, then suddenly generated code can't find symbols”.
+    // - The "paranoid" clean wipes *all* module targets from repo root.
+    // ======================================================================================
+
     {
-      "label": "Maven: test (fast)",
+      "label": "Maven: clean",
       "type": "shell",
       "command": "zsh",
-      "args": ["-lic", "mvn  -DskipITs test"],
+      "args": ["-lic", "mvn clean"],
       "problemMatcher": ["$maven"],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
+    {
+      "label": "Maven: clean (paranoid) [delete all module targets]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "find . -name target -type d -prune -print -exec rm -rf {} +"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    {
+      "label": "Maven: package (fast) [skip tests + skip ITs + skip coverage/quality]",
+      "type": "shell",
+      "command": "zsh",
+      "args": [
+        "-lic",
+        "mvn package -DskipTests -DskipITs -Djacoco.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
+      ],
+      "problemMatcher": ["$maven"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Maven: clean + package (fast) [skip tests + skip ITs + skip coverage/quality]",
+      "type": "shell",
+      "command": "zsh",
+      "args": [
+        "-lic",
+        "mvn clean package -DskipTests -DskipITs -Djacoco.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
+      ],
+      "problemMatcher": ["$maven"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    // --- Reactor-safe module builds: rebuild module + deps consistently -------------------
+
+    {
+      "label": "Maven: module clean + package (-am) [prompt module, fixes stale deps]",
+      "type": "shell",
+      "command": "zsh",
+      "args": [
+        "-lic",
+        "mvn -pl :${input:module} -am clean package -DskipTests -DskipITs -Djacoco.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
+      ],
+      "problemMatcher": ["$maven"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    // FIXED: label claimed "selector optional" but task didn't use it.
+    {
+      "label": "Maven: module test (fast) (-am) [prompt module + surefire selector]",
+      "type": "shell",
+      "command": "zsh",
+      "args": [
+        "-lic",
+        "mvn -pl :${input:module} -am -DskipITs -Dtest='${input:testName}' test"
+      ],
+      "problemMatcher": ["$maven"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    // ======================================================================================
+    // Maven: Tests
+    // ======================================================================================
+    {
+      "label": "Maven: test (fast) [skip ITs]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "mvn -DskipITs test"],
+      "problemMatcher": ["$maven"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    // NEW: same as above but forces snapshot updates (no ~/.m2 nuking).
+    {
+      "label": "Maven: test (fast, -U) [force snapshot updates + skip ITs]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "mvn -U -DskipITs test"],
+      "problemMatcher": ["$maven"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
     {
       "label": "Maven: test (single) [prompt]",
       "type": "shell",
       "command": "zsh",
       "args": ["-lic", "mvn -Dtest='${input:testName}' test"],
-      "problemMatcher": ["$maven"],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Maven: package (skip tests)",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "mvn -DskipTests package"],
       "problemMatcher": ["$maven"],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
@@ -181,12 +273,75 @@
       "label": "Maven: test (fast) [pick java via sdkman]",
       "type": "shell",
       "command": "zsh",
-      "args": ["-lic", "sdk use java ${input:java} >/dev/null && mvn  -DskipITs test"],
+      "args": ["-lic", "sdk use java ${input:java} >/dev/null && mvn -DskipITs test"],
       "problemMatcher": ["$maven"],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
 
-    // yamcurl tasks (optional)
+    // ======================================================================================
+    // Maven: Coverage
+    //
+    // Repo-dependent:
+    // - "jacoco:report" works if JaCoCo is configured as a plugin (common).
+    // - "-Pcoverage" is [NEEDS CONFIRMATION] (only if your repo defines that profile).
+    // ======================================================================================
+
+    {
+      "label": "Maven: coverage (JaCoCo) [clean verify + report]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "mvn clean verify jacoco:report"],
+      "problemMatcher": ["$maven"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Maven: coverage (unit tests only) [skip ITs + report]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "mvn clean test -DskipITs jacoco:report"],
+      "problemMatcher": ["$maven"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Maven: coverage (profile=coverage) [NEEDS CONFIRMATION]",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "mvn clean verify -Pcoverage"],
+      "problemMatcher": ["$maven"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    // ======================================================================================
+    // Maven: “Why is Maven being weird?” tools
+    // ======================================================================================
+    {
+      "label": "Maven: dependency tree (verbose)",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "mvn -Dverbose dependency:tree"],
+      "problemMatcher": ["$maven"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Maven: effective POM",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "mvn help:effective-pom"],
+      "problemMatcher": ["$maven"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Maven: show active profiles",
+      "type": "shell",
+      "command": "zsh",
+      "args": ["-lic", "mvn help:active-profiles"],
+      "problemMatcher": ["$maven"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    // ======================================================================================
+    // Yamcurl
+    // ======================================================================================
     {
       "label": "YamCurl: Copy AAD token",
       "type": "shell",
@@ -211,7 +366,10 @@
       "problemMatcher": [],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
-    // ICM task (optional)
+
+    // ======================================================================================
+    // ICM
+    // ======================================================================================
     {
       "label": "ICM: Report [prompt]",
       "type": "shell",
@@ -219,82 +377,6 @@
       "args": ["-lic", "icmreport '${input:icmQuery}' ${input:icmCount}"],
       "problemMatcher": [],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-  "label": "Maven: clean",
-  "type": "shell",
-  "command": "zsh",
-  "args": ["-lic", "mvn clean"],
-  "problemMatcher": ["$maven"],
-  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-},
-{
-  "label": "Maven: clean + package (fast) [skip tests + no coverage]",
-  "type": "shell",
-  "command": "zsh",
-  "args": [
-    "-lic",
-    "mvn  clean package -DskipTests -Djacoco.skip=true -DskipITs -Dcheckstyle.skip=true -Dspotbugs.skip=true"
-  ],
-  "problemMatcher": ["$maven"],
-  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-},
-{
-  "label": "Maven: package (fast) [skip tests + no coverage]",
-  "type": "shell",
-  "command": "zsh",
-  "args": [
-    "-lic",
-    "mvn package -DskipTests -Djacoco.skip=true -DskipITs -Dcheckstyle.skip=true -Dspotbugs.skip=true"
-  ],
-  "problemMatcher": ["$maven"],
-  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-},
-
-// Coverage options (keep the one that matches your repo)
-
-{
-  "label": "Maven: coverage (JaCoCo) [clean verify + report]",
-  "type": "shell",
-  "command": "zsh",
-  "args": ["-lic", "mvn clean verify jacoco:report"],
-  "problemMatcher": ["$maven"],
-  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-},
-{
-  "label": "Maven: coverage (profile=coverage) [NEEDS CONFIRMATION]",
-  "type": "shell",
-  "command": "zsh",
-  "args": ["-lic", "mvn  clean verify -Pcoverage"],
-  "problemMatcher": ["$maven"],
-  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-},
-{
-  "label": "Maven: coverage (unit tests only) [skip ITs]",
-  "type": "shell",
-  "command": "zsh",
-  "args": ["-lic", "mvn  clean test jacoco:report -DskipITs"],
-  "problemMatcher": ["$maven"],
-  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-},
-
-// Useful extras (high ROI)
-
-{
-  "label": "Maven: dependency tree (verbose)",
-  "type": "shell",
-  "command": "zsh",
-  "args": ["-lic", "mvn  -Dverbose dependency:tree"],
-  "problemMatcher": ["$maven"],
-  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-},
-{
-  "label": "Maven: effective POM",
-  "type": "shell",
-  "command": "zsh",
-  "args": ["-lic", "mvn  help:effective-pom"],
-  "problemMatcher": ["$maven"],
-  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-}
+    }
   ]
 }
