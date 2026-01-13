@@ -211,7 +211,6 @@
       "problemMatcher": [],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
-
     // ICM task (optional)
     {
       "label": "ICM: Report [prompt]",
@@ -220,6 +219,82 @@
       "args": ["-lic", "icmreport '${input:icmQuery}' ${input:icmCount}"],
       "problemMatcher": [],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    }
+    },
+    {
+  "label": "Maven: clean",
+  "type": "shell",
+  "command": "zsh",
+  "args": ["-lic", "mvn -q clean"],
+  "problemMatcher": ["$maven"],
+  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+},
+{
+  "label": "Maven: clean + package (fast) [skip tests + no coverage]",
+  "type": "shell",
+  "command": "zsh",
+  "args": [
+    "-lic",
+    "mvn -q clean package -DskipTests -Djacoco.skip=true -DskipITs -Dcheckstyle.skip=true -Dspotbugs.skip=true"
+  ],
+  "problemMatcher": ["$maven"],
+  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+},
+{
+  "label": "Maven: package (fast) [skip tests + no coverage]",
+  "type": "shell",
+  "command": "zsh",
+  "args": [
+    "-lic",
+    "mvn -q package -DskipTests -Djacoco.skip=true -DskipITs -Dcheckstyle.skip=true -Dspotbugs.skip=true"
+  ],
+  "problemMatcher": ["$maven"],
+  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+},
+
+// Coverage options (keep the one that matches your repo)
+
+{
+  "label": "Maven: coverage (JaCoCo) [clean verify + report]",
+  "type": "shell",
+  "command": "zsh",
+  "args": ["-lic", "mvn -q clean verify jacoco:report"],
+  "problemMatcher": ["$maven"],
+  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+},
+{
+  "label": "Maven: coverage (profile=coverage) [NEEDS CONFIRMATION]",
+  "type": "shell",
+  "command": "zsh",
+  "args": ["-lic", "mvn -q clean verify -Pcoverage"],
+  "problemMatcher": ["$maven"],
+  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+},
+{
+  "label": "Maven: coverage (unit tests only) [skip ITs]",
+  "type": "shell",
+  "command": "zsh",
+  "args": ["-lic", "mvn -q clean test jacoco:report -DskipITs"],
+  "problemMatcher": ["$maven"],
+  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+},
+
+// Useful extras (high ROI)
+
+{
+  "label": "Maven: dependency tree (verbose)",
+  "type": "shell",
+  "command": "zsh",
+  "args": ["-lic", "mvn -q -Dverbose dependency:tree"],
+  "problemMatcher": ["$maven"],
+  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+},
+{
+  "label": "Maven: effective POM",
+  "type": "shell",
+  "command": "zsh",
+  "args": ["-lic", "mvn -q help:effective-pom"],
+  "problemMatcher": ["$maven"],
+  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+}
   ]
 }
