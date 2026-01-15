@@ -1,9 +1,10 @@
+
 {
   "version": "2.0.0",
 
-  // --------------------------------------------------------------------------------------
+  // ======================================================================================
   // Inputs
-  // --------------------------------------------------------------------------------------
+  // ======================================================================================
   "inputs": [
     {
       "id": "lab",
@@ -29,7 +30,14 @@
       "id": "module",
       "type": "pickString",
       "description": "Maven module (artifactId) for -pl",
-      "options": ["grouper", "grouper-service", "reporter", "grouper-client", "grouper2-client", "grouper2-api"],
+      "options": [
+        "grouper",
+        "grouper-service",
+        "reporter",
+        "grouper-client",
+        "grouper2-client",
+        "grouper2-api"
+      ],
       "default": "grouper2-api"
     },
     {
@@ -68,12 +76,42 @@
       "type": "promptString",
       "description": "How many incidents",
       "default": "5"
+    },
+
+    // --------------------------------------------------------------------------------------
+    // Company AI / Claude Code / Agency inputs
+    // --------------------------------------------------------------------------------------
+    {
+      "id": "aiPrompt",
+      "type": "promptString",
+      "description": "Prompt to send to Claude Code (non-interactive)",
+      "default": "Summarize what this repo does and list the top 5 commands I should know."
+    },
+    {
+      "id": "aiModel",
+      "type": "pickString",
+      "description": "Claude model alias (works if your org supports it)",
+      "options": ["sonnet", "opus"],
+      "default": "sonnet"
+    },
+    {
+      "id": "aiPermissionMode",
+      "type": "pickString",
+      "description": "Claude permission mode",
+      "options": ["default", "plan", "acceptEdits", "dontAsk", "delegate", "bypassPermissions"],
+      "default": "plan"
+    },
+    {
+      "id": "aiAddDir",
+      "type": "promptString",
+      "description": "Extra directory to allow tool access to (optional; blank ok)",
+      "default": ""
     }
   ],
 
-  // --------------------------------------------------------------------------------------
+  // ======================================================================================
   // Tasks
-  // --------------------------------------------------------------------------------------
+  // ======================================================================================
   "tasks": [
     // ======================================================================================
     // Sanity / Debug
@@ -83,6 +121,128 @@
       "type": "shell",
       "command": "echo hello",
       "problemMatcher": []
+    },
+
+    // ======================================================================================
+    // Company AI: Claude Code via Agency
+    //
+    // Notes:
+    // - Interactive: use “Agency: Claude (interactive)”.
+    // - Non-interactive: use “Agency: Claude (ask prompt)”.
+    // - The install task is OS-specific via VS Code task overrides.
+    // ======================================================================================
+
+    {
+      "label": "Agency: Open Anthropic Console (SSO login page)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "echo 'Open this in a browser (SSO): https://console.anthropic.com/login?sso=true'"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    {
+      "label": "Agency: Install (Windows/Mac/Linux)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "echo 'This task uses OS overrides. If you see this line, your VS Code may not be applying OS overrides.'"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+
+      "windows": {
+        "command": "powershell",
+        "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", "iex \"& { $(irm aka.ms/InstallTool.ps1)} agency\""]
+      },
+      "osx": {
+        "command": "bash",
+        "args": ["-lc", "curl -sSfL https://aka.ms/InstallTool.sh | sh -s agency"]
+      },
+      "linux": {
+        "command": "bash",
+        "args": ["-lc", "curl -sSfL https://aka.ms/InstallToolLinux.sh | sh -s agency"]
+      }
+    },
+
+    {
+      "label": "Agency: Verify (print versions)",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "set -euo pipefail; command -v agency >/dev/null && agency --version || (echo 'agency not found in PATH' && exit 1)"
+      ],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    {
+      "label": "Agency: Claude (interactive)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "agency claude"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": false }
+    },
+
+    {
+      "label": "Agency: Claude (ask prompt) [non-interactive]",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "set -euo pipefail; " +
+          "EXTRA_DIR=${input:aiAddDir}; " +
+          "ADD_DIR_ARGS=''; " +
+          "if [ -n \"${EXTRA_DIR}\" ]; then ADD_DIR_ARGS=\"--add-dir \\\"${EXTRA_DIR}\\\"\"; fi; " +
+          "agency claude -- -p --model ${input:aiModel} --permission-mode ${input:aiPermissionMode} ${ADD_DIR_ARGS} \"${input:aiPrompt}\""
+      ],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    {
+      "label": "Agency: Claude doctor (auto-updater health)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "agency claude -- doctor"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    {
+      "label": "Agency: Claude update",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "agency claude -- update"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    {
+      "label": "Agency: Copilot CLI (interactive) [optional compare]",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "agency copilot"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": false }
+    },
+
+    {
+      "label": "Agency: MCP (list/configure) [optional]",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "agency mcp -h"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+
+    {
+      "label": "Agency: Repo tools (help) [optional]",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "agency repo -h"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
 
     // ======================================================================================
@@ -162,14 +322,8 @@
     },
 
     // ======================================================================================
-    // Maven: Fast paths (high ROI for “I keep seeing stale / mismatched builds”)
-    //
-    // Notes:
-    // - The "-am" (also-make) tasks rebuild dependent modules in the same reactor build.
-    //   This is the #1 antidote to “works, then suddenly generated code can't find symbols”.
-    // - The "paranoid" clean wipes *all* module targets from repo root.
+    // Maven: Fast paths
     // ======================================================================================
-
     {
       "label": "Maven: clean",
       "type": "shell",
@@ -186,7 +340,6 @@
       "problemMatcher": [],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
-
     {
       "label": "Maven: package (fast) [skip tests + skip ITs + skip coverage/quality]",
       "type": "shell",
@@ -209,9 +362,6 @@
       "problemMatcher": ["$maven"],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
-
-    // --- Reactor-safe module builds: rebuild module + deps consistently -------------------
-
     {
       "label": "Maven: module clean + package (-am) [prompt module, fixes stale deps]",
       "type": "shell",
@@ -223,16 +373,11 @@
       "problemMatcher": ["$maven"],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
-
-    // FIXED: label claimed "selector optional" but task didn't use it.
     {
       "label": "Maven: module test (fast) (-am) [prompt module + surefire selector]",
       "type": "shell",
       "command": "zsh",
-      "args": [
-        "-lic",
-        "mvn -pl :${input:module} -am -DskipITs -Dtest='${input:testName}' test"
-      ],
+      "args": ["-lic", "mvn -pl :${input:module} -am -DskipITs -Dtest='${input:testName}' test"],
       "problemMatcher": ["$maven"],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
@@ -248,8 +393,6 @@
       "problemMatcher": ["$maven"],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
-
-    // NEW: same as above but forces snapshot updates (no ~/.m2 nuking).
     {
       "label": "Maven: test (fast, -U) [force snapshot updates + skip ITs]",
       "type": "shell",
@@ -258,7 +401,6 @@
       "problemMatcher": ["$maven"],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
-
     {
       "label": "Maven: test (single) [prompt]",
       "type": "shell",
@@ -267,8 +409,6 @@
       "problemMatcher": ["$maven"],
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     },
-
-    // SDKMAN + Maven (optional)
     {
       "label": "Maven: test (fast) [pick java via sdkman]",
       "type": "shell",
@@ -280,12 +420,7 @@
 
     // ======================================================================================
     // Maven: Coverage
-    //
-    // Repo-dependent:
-    // - "jacoco:report" works if JaCoCo is configured as a plugin (common).
-    // - "-Pcoverage" is [NEEDS CONFIRMATION] (only if your repo defines that profile).
     // ======================================================================================
-
     {
       "label": "Maven: coverage (JaCoCo) [clean verify + report]",
       "type": "shell",
@@ -379,4 +514,4 @@
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     }
   ]
-}
+} 
