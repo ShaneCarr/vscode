@@ -214,8 +214,7 @@
 
   "java.compile.nullAnalysis.mode": "automatic",
   "java.maxConcurrentBuilds": 12,
-  "java.sources.organizeImports.starThreshold": 9999,
-  "java.sources.organizeImports.staticStarThreshold": 9999,
+  "java.sources.organizeImports.staticStarThreshold": 1,
 
   "java.debug.settings.hotCodeReplace": "never",
   "java.debug.settings.showToString": false,
@@ -237,18 +236,8 @@
     "ch.qos.logback.*",
     "reactor.core.*",
     "kotlin.*"
-    ],
-    "java.saveActions.organizeImports": false,
-  "java.completion.importOrder": [
-  "java",
-  "javax",
-  "org",
-  "com"
-   ],
-  "java.completion.maxResults": 0,
-  "java.completion.importThreshold": 9999,
-  "java.completion.starThreshold": 9999,
-  "jdk.java.onSave.organizeImports": false,
+  ],
+
   // --------------------------------------------------------------------------
   // Terminal / Maven / PlantUML follow SDKMAN
   // --------------------------------------------------------------------------
@@ -277,10 +266,9 @@
   "netbeans.javaSupport.enabled": false,
   "kotlin.languageServer.enabled": false,
   "kotlin.debugAdapter.enabled": false,
+  "jdk.telemetry.enabled": false,
   "geminicodeassist.displayInlineContextHint": false,
   "workbench.colorTheme": "GitHub Light Default",
   "workbench.fontAliasing": "antialiased",
-  "editor.mouseWheelZoom": true,
-  "chatgpt.openOnStartup": true,
-  "redhat.telemetry.enabled": true
+  "editor.mouseWheelZoom": true
 }
