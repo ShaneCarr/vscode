@@ -1,517 +1,108 @@
-
 {
-  "version": "2.0.0",
-
-  // ======================================================================================
-  // Inputs
-  // ======================================================================================
-  "inputs": [
-    {
-      "id": "lab",
-      "type": "promptString",
-      "description": "Lab name (e.g. tl42, dogfood-17)",
-      "default": "$LAB"
-    },
-    {
-      "id": "service",
-      "type": "pickString",
-      "description": "Service to operate on",
-      "options": [
-        "grouper",
-        "grouper-service",
-        "reporter",
-        "grouper-client",
-        "grouper2-client",
-        "grouper2-api"
-      ],
-      "default": "grouper"
-    },
-    {
-      "id": "module",
-      "type": "pickString",
-      "description": "Maven module (artifactId) for -pl",
-      "options": [
-        "grouper",
-        "grouper-service",
-        "reporter",
-        "grouper-client",
-        "grouper2-client",
-        "grouper2-api"
-      ],
-      "default": "grouper2-api"
-    },
-    {
-      "id": "testName",
-      "type": "promptString",
-      "description": "Surefire test selector (e.g. FooTest or FooTest#testBar)",
-      "default": "*Test"
-    },
-    {
-      "id": "java",
-      "type": "pickString",
-      "description": "Java version (sdk use java ...)",
-      "options": ["17.0.10-tem", "21.0.2-tem"],
-      "default": "17.0.10-tem"
-    },
-    {
-      "id": "url",
-      "type": "promptString",
-      "description": "URL to curl",
-      "default": "https://www.yammer.com/api/v1/networks/current"
-    },
-    {
-      "id": "centralPath",
-      "type": "promptString",
-      "description": "central <service/path>",
-      "default": "workfeed-web/api/v1/networks/current"
-    },
-    {
-      "id": "icmQuery",
-      "type": "promptString",
-      "description": "ICM query / criteria",
-      "default": "OwningServiceId eq 20732"
-    },
-    {
-      "id": "icmCount",
-      "type": "promptString",
-      "description": "How many incidents",
-      "default": "5"
-    },
-
-    // --------------------------------------------------------------------------------------
-    // Company AI / Claude Code / Agency inputs
-    // --------------------------------------------------------------------------------------
-    {
-      "id": "aiPrompt",
-      "type": "promptString",
-      "description": "Prompt to send to Claude Code (non-interactive)",
-      "default": "Summarize what this repo does and list the top 5 commands I should know."
-    },
-    {
-      "id": "aiModel",
-      "type": "pickString",
-      "description": "Claude model alias (works if your org supports it)",
-      "options": ["sonnet", "opus"],
-      "default": "sonnet"
-    },
-    {
-      "id": "aiPermissionMode",
-      "type": "pickString",
-      "description": "Claude permission mode",
-      "options": ["default", "plan", "acceptEdits", "dontAsk", "delegate", "bypassPermissions"],
-      "default": "plan"
-    },
-    {
-      "id": "aiAddDir",
-      "type": "promptString",
-      "description": "Extra directory to allow tool access to (optional; blank ok)",
-      "default": ""
-    }
-  ],
-
-  // ======================================================================================
-  // Tasks
-  // ======================================================================================
-  "tasks": [
-    // ======================================================================================
-    // Sanity / Debug
-    // ======================================================================================
-    {
-      "label": "SANITY: echo hello",
-      "type": "shell",
-      "command": "echo hello",
-      "problemMatcher": []
-    },
-
-    // ======================================================================================
-    // Company AI: Claude Code via Agency
-    //
-    // Notes:
-    // - Interactive: use “Agency: Claude (interactive)”.
-    // - Non-interactive: use “Agency: Claude (ask prompt)”.
-    // - The install task is OS-specific via VS Code task overrides.
-    // ======================================================================================
-
-    {
-      "label": "Agency: Open Anthropic Console (SSO login page)",
-      "type": "shell",
-      "command": "bash",
-      "args": ["-lc", "echo 'Open this in a browser (SSO): https://console.anthropic.com/login?sso=true'"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-
-    {
-      "label": "Agency: Install (Windows/Mac/Linux)",
-      "type": "shell",
-      "command": "bash",
-      "args": ["-lc", "echo 'This task uses OS overrides. If you see this line, your VS Code may not be applying OS overrides.'"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
-
-      "windows": {
-        "command": "powershell",
-        "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", "iex \"& { $(irm aka.ms/InstallTool.ps1)} agency\""]
-      },
-      "osx": {
-        "command": "bash",
-        "args": ["-lc", "curl -sSfL https://aka.ms/InstallTool.sh | sh -s agency"]
-      },
-      "linux": {
-        "command": "bash",
-        "args": ["-lc", "curl -sSfL https://aka.ms/InstallToolLinux.sh | sh -s agency"]
-      }
-    },
-
-    {
-      "label": "Agency: Verify (print versions)",
-      "type": "shell",
-      "command": "bash",
-      "args": [
-        "-lc",
-        "set -euo pipefail; command -v agency >/dev/null && agency --version || (echo 'agency not found in PATH' && exit 1)"
-      ],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-
-    {
-      "label": "Agency: Claude (interactive)",
-      "type": "shell",
-      "command": "bash",
-      "args": ["-lc", "agency claude"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": false }
-    },
-
-    {
-      "label": "Agency: Claude (ask prompt) [non-interactive]",
-      "type": "shell",
-      "command": "bash",
-      "args": [
-        "-lc",
-        "set -euo pipefail; " +
-          "EXTRA_DIR=${input:aiAddDir}; " +
-          "ADD_DIR_ARGS=''; " +
-          "if [ -n \"${EXTRA_DIR}\" ]; then ADD_DIR_ARGS=\"--add-dir \\\"${EXTRA_DIR}\\\"\"; fi; " +
-          "agency claude -- -p --model ${input:aiModel} --permission-mode ${input:aiPermissionMode} ${ADD_DIR_ARGS} \"${input:aiPrompt}\""
-      ],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-
-    {
-      "label": "Agency: Claude doctor (auto-updater health)",
-      "type": "shell",
-      "command": "bash",
-      "args": ["-lc", "agency claude -- doctor"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-
-    {
-      "label": "Agency: Claude update",
-      "type": "shell",
-      "command": "bash",
-      "args": ["-lc", "agency claude -- update"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-
-    {
-      "label": "Agency: Copilot CLI (interactive) [optional compare]",
-      "type": "shell",
-      "command": "bash",
-      "args": ["-lc", "agency copilot"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": false }
-    },
-
-    {
-      "label": "Agency: MCP (list/configure) [optional]",
-      "type": "shell",
-      "command": "bash",
-      "args": ["-lc", "agency mcp -h"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-
-    {
-      "label": "Agency: Repo tools (help) [optional]",
-      "type": "shell",
-      "command": "bash",
-      "args": ["-lc", "agency repo -h"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-
-    // ======================================================================================
-    // Lab (Yamdev)
-    // ======================================================================================
-    {
-      "label": "Lab: Deploy (tldeploylocal) [pick lab + service]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "tldeploylocal ${input:lab} ${input:service}"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Lab: Debug Proxy (tldebugproxy) [pick lab + service]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "tldebugproxy ${input:lab} ${input:service}"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Lab: Logs (tlapplogs) [pick lab + service]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "tlapplogs ${input:lab} ${input:service}"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Lab: Request Logs (tlrequestlogs) [pick lab + service]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "tlrequestlogs ${input:lab} ${input:service}"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Lab: Pod Status (tlps) [pick lab]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "tlps ${input:lab}"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Lab: Deploy Logs (tldeploylogs) [pick lab + service]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "tldeploylogs ${input:lab} ${input:service}"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Lab: Shell (tlshell) [pick lab + service]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "tlshell ${input:lab} ${input:service}"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": false }
-    },
-    {
-      "label": "Lab: Config (tlconfig) [pick lab + service]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "tlconfig ${input:lab} ${input:service}"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Lab: Kill Proxies (tlnoproxy)",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "tlnoproxy"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-
-    // ======================================================================================
-    // Maven: Fast paths
-    // ======================================================================================
-    {
-      "label": "Maven: clean",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "mvn clean"],
-      "problemMatcher": ["$maven"],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Maven: clean (paranoid) [delete all module targets]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "find . -name target -type d -prune -print -exec rm -rf {} +"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Maven: package (fast) [skip tests + skip ITs + skip coverage/quality]",
-      "type": "shell",
-      "command": "zsh",
-      "args": [
-        "-lic",
-        "mvn package -DskipTests -DskipITs -Djacoco.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
-      ],
-      "problemMatcher": ["$maven"],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Maven: clean + package (fast) [skip tests + skip ITs + skip coverage/quality]",
-      "type": "shell",
-      "command": "zsh",
-      "args": [
-        "-lic",
-        "mvn clean package -DskipTests -DskipITs -Djacoco.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
-      ],
-      "problemMatcher": ["$maven"],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Maven: module clean + package (-am) [prompt module, fixes stale deps]",
-      "type": "shell",
-      "command": "zsh",
-      "args": [
-        "-lic",
-        "mvn -pl :${input:module} -am clean package -DskipTests -DskipITs -Djacoco.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
-      ],
-      "problemMatcher": ["$maven"],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Maven: module test (fast) (-am) [prompt module + surefire selector]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "mvn -pl :${input:module} -am -DskipITs -Dtest='${input:testName}' test"],
-      "problemMatcher": ["$maven"],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-
-    // ======================================================================================
-    // Maven: Tests
-    // ======================================================================================
-    {
-      "label": "Maven: test (fast) [skip ITs]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "mvn -DskipITs test"],
-      "problemMatcher": ["$maven"],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Maven: test (fast, -U) [force snapshot updates + skip ITs]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "mvn -U -DskipITs test"],
-      "problemMatcher": ["$maven"],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Maven: test (single) [prompt]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "mvn -Dtest='${input:testName}' test"],
-      "problemMatcher": ["$maven"],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Maven: test (fast) [pick java via sdkman]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "sdk use java ${input:java} >/dev/null && mvn -DskipITs test"],
-      "problemMatcher": ["$maven"],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-
-    // ======================================================================================
-    // Maven: Coverage
-    // ======================================================================================
-    {
-      "label": "Maven: coverage (JaCoCo) [clean verify + report]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "mvn clean verify jacoco:report"],
-      "problemMatcher": ["$maven"],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Maven: coverage (unit tests only) [skip ITs + report]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "mvn clean test -DskipITs jacoco:report"],
-      "problemMatcher": ["$maven"],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Maven: coverage (profile=coverage) [NEEDS CONFIRMATION]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "mvn clean verify -Pcoverage"],
-      "problemMatcher": ["$maven"],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-
-    // ======================================================================================
-    // Maven: “Why is Maven being weird?” tools
-    // ======================================================================================
-    {
-      "label": "Maven: dependency tree (verbose)",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "mvn -Dverbose dependency:tree"],
-      "problemMatcher": ["$maven"],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Maven: effective POM",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "mvn help:effective-pom"],
-      "problemMatcher": ["$maven"],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "Maven: show active profiles",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "mvn help:active-profiles"],
-      "problemMatcher": ["$maven"],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-
-    // ======================================================================================
-    // Yamcurl
-    // ======================================================================================
-    {
-      "label": "YamCurl: Copy AAD token",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "yamcurl copy"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "YamCurl: curl URL [prompt]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "yamcurl curl '${input:url}'"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-    {
-      "label": "YamCurl: central service path [prompt]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "yamcurl central '${input:centralPath}'"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    },
-
-    // ======================================================================================
-    // ICM
-    // ======================================================================================
-    {
-      "label": "ICM: Report [prompt]",
-      "type": "shell",
-      "command": "zsh",
-      "args": ["-lic", "icmreport '${input:icmQuery}' ${input:icmCount}"],
-      "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
-    }
-  ]
-} 
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "echo",
+            "type": "shell",
+            "command": "echo Hello"
+        },
+        {
+            "label": "Git: Diff (ignore whitespace)",
+            "type": "shell",
+            "command": "git diff -w --color-words",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true
+            }
+        },
+        {
+            "label": "Git: Diff Working vs HEAD",
+            "type": "shell",
+            "command": "git diff HEAD --color-words",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true
+            }
+        },
+        {
+            "label": "Git: Diff Staged Changes",
+            "type": "shell",
+            "command": "git diff --staged --color-words",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true
+            }
+        },
+        {
+            "label": "Git: File History (Current File)",
+            "type": "shell",
+            "command": "git log --follow --patch --color -- ${file}",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true
+            }
+        },
+        {
+            "label": "Git: Recent Changes (Last 10 Commits)",
+            "type": "shell",
+            "command": "git log -10 --oneline --stat --color",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true
+            }
+        },
+        {
+            "label": "Git: Show All Modified Files",
+            "type": "shell",
+            "command": "git status --short",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true
+            }
+        },
+        {
+            "label": "Toggle: Diff Side-by-Side View",
+            "type": "shell",
+            "command": "SETTINGS=\"$HOME/Library/Application Support/Code/User/settings.json\"; CURRENT=$(grep '\"diffEditor.renderSideBySide\"' \"$SETTINGS\" | grep -o 'true\\|false'); if [ \"$CURRENT\" = \"true\" ]; then NEW=\"false\"; MODE=\"INLINE\"; else NEW=\"true\"; MODE=\"SIDE-BY-SIDE\"; fi; sed -i '' \"s/\\\"diffEditor.renderSideBySide\\\": $CURRENT/\\\"diffEditor.renderSideBySide\\\": $NEW/\" \"$SETTINGS\"; echo \"✅ Diff view mode changed to: $MODE\"; echo \"\"; echo \"Current setting: diffEditor.renderSideBySide = $NEW\"; echo \"\"; echo \"ℹ️  Close and reopen any diff views to see the change.\"",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true
+            }
+        },
+        {
+            "label": "View: Current Diff Mode",
+            "type": "shell",
+            "command": "SETTINGS=\"$HOME/Library/Application Support/Code/User/settings.json\"; CURRENT=$(grep '\"diffEditor.renderSideBySide\"' \"$SETTINGS\" | grep -o 'true\\|false'); if [ \"$CURRENT\" = \"true\" ]; then echo \"Current mode: SIDE-BY-SIDE\"; else echo \"Current mode: INLINE\"; fi; echo \"\"; echo \"Setting: diffEditor.renderSideBySide = $CURRENT\"",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true
+            }
+        }
+    ]
+}

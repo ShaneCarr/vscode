@@ -268,7 +268,86 @@
   "kotlin.debugAdapter.enabled": false,
   "jdk.telemetry.enabled": false,
   "geminicodeassist.displayInlineContextHint": false,
-  "workbench.colorTheme": "GitHub Light Default",
+  "workbench.colorTheme": "GitHub Dark Default",
   "workbench.fontAliasing": "antialiased",
-  "editor.mouseWheelZoom": true
+  "editor.mouseWheelZoom": true,
+    "java.jdt.ls.vmargs": "-XX:+UseZGC -Xms2g -Xmx8g",
+  "files.watcherExclude": {
+    "**/target/**": true,
+    "**/.m2/**": true
+  },
+  "search.followSymlinks": false,
+  "python.analysis.memory.keepLibraryAst": false,
+  "docker.extension.enableComposeLanguageServer": false,
+    // --------------------------------------------------------------------------
+  // Git Change Tracking (inline diff indicators in gutter)
+  // --------------------------------------------------------------------------
+  "scm.diffDecorations": "all",
+  "scm.diffDecorationsGutterWidth": 4,
+  "scm.diffDecorationsGutterVisibility": "always",
+  "scm.defaultViewMode": "tree",
+  "scm.alwaysShowActions": true,
+
+  // --------------------------------------------------------------------------
+  // Git Explorer Decorations (file status badges & colors)
+  // --------------------------------------------------------------------------
+  "explorer.decorations.badges": true,
+  "explorer.decorations.colors": true,
+
+  // --------------------------------------------------------------------------
+  // Git Auto-sync (stay current with remote)
+  // --------------------------------------------------------------------------
+  "git.autofetch": true,
+  "git.autofetchPeriod": 180,
+  "git.confirmSync": false,
+
+  // --------------------------------------------------------------------------
+  // Local History & Timeline (track every change for easy comparison)
+  // --------------------------------------------------------------------------
+  "workbench.localHistory.enabled": true,
+  "workbench.localHistory.maxFileSize": 2048,
+  "workbench.localHistory.maxFileEntries": 100,
+  "workbench.localHistory.mergeWindow": 10,
+  "timeline.pageSize": 50,
+  "timeline.excludeSources": [],
+
+  // --------------------------------------------------------------------------
+  // Auto-save (enables more frequent local history snapshots)
+  // --------------------------------------------------------------------------
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 3000,
+
+  // --------------------------------------------------------------------------
+  // Diff Editor (optimized for readability & navigation)
+  // --------------------------------------------------------------------------
+  "diffEditor.renderSideBySide": true,              // Side-by-side easier with large fonts
+  "diffEditor.hideUnchangedRegions.enabled": true, // Collapse unchanged (easier scanning)
+  "diffEditor.hideUnchangedRegions.minimumLineCount": 3,
+  "diffEditor.hideUnchangedRegions.contextLineCount": 3,
+  "diffEditor.ignoreTrimWhitespace": true,
+  "diffEditor.renderIndicators": true,             // Show +/- indicators
+  "diffEditor.codeLens": true,                     // Show accept/ignore actions
+  "diffEditor.diffAlgorithm": "advanced",          // Better word-level diffs
+  "diffEditor.wordWrap": "on",                     // Match editor word wrap
+  "diffEditor.maxComputationTime": 15000,
+
+  // --------------------------------------------------------------------------
+  // Editor Navigation Enhancements
+  // --------------------------------------------------------------------------
+  "workbench.editor.enablePreview": false,         // Always open files (no preview)
+  "workbench.editor.highlightModifiedTabs": true,  // Highlight unsaved files
+  "workbench.editor.decorations.badges": true,     // Show git status on tabs
+  "workbench.editor.closeOnFileDelete": true,      // Close deleted files
+
+  // --------------------------------------------------------------------------
+  // Breadcrumbs Enhancement
+  // --------------------------------------------------------------------------
+  "breadcrumbs.symbolPath": "on",
+  "breadcrumbs.symbolSortOrder": "position",
+
+  // --------------------------------------------------------------------------
+  // Sticky Scroll Optimization
+  // --------------------------------------------------------------------------
+  "editor.stickyScroll.maxLineCount": 5,
+  "editor.stickyScroll.defaultModel": "outlineModel",
 }
