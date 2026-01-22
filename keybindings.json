@@ -1,0 +1,104 @@
+[
+    // =========================================================================
+    // Git Diff Tasks (Quick Access)
+    // =========================================================================
+    {
+        "key": "cmd+shift+i",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Git: Diff (ignore whitespace)"
+    },
+    {
+        "key": "cmd+shift+d",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Git: Diff Working vs HEAD"
+    },
+
+    // =========================================================================
+    // Diff Navigation (multiple methods for reliability)
+    // =========================================================================
+
+    // Method 1: Arrow keys (works in diff editors)
+    {
+        "key": "alt+down",
+        "command": "editor.action.diffReview.next",
+        "when": "isInDiffEditor"
+    },
+    {
+        "key": "alt+up",
+        "command": "editor.action.diffReview.prev",
+        "when": "isInDiffEditor"
+    },
+
+    // Method 2: F-keys (works in diff editors)
+    {
+        "key": "f7",
+        "command": "editor.action.diffReview.next",
+        "when": "isInDiffEditor"
+    },
+    {
+        "key": "shift+f7",
+        "command": "editor.action.diffReview.prev",
+        "when": "isInDiffEditor"
+    },
+
+    // Method 3: Bracket keys (universal - works everywhere)
+    {
+        "key": "alt+]",
+        "command": "workbench.action.editor.nextChange"
+    },
+    {
+        "key": "alt+[",
+        "command": "workbench.action.editor.previousChange"
+    },
+
+    // =========================================================================
+    // Diff View Toggle (side-by-side vs inline)
+    // =========================================================================
+    {
+        "key": "cmd+shift+t",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Toggle: Diff Side-by-Side View"
+    },
+
+    // =========================================================================
+    // Timeline & History Views (track all changes)
+    // =========================================================================
+    {
+        "key": "cmd+shift+h",
+        "command": "timeline.focus"
+    },
+    {
+        "key": "ctrl+shift+g",
+        "command": "workbench.view.scm"
+    },
+
+    // =========================================================================
+    // Source Control Quick Actions
+    // =========================================================================
+    {
+        "key": "cmd+shift+g",
+        "command": "workbench.view.scm"
+    },
+
+    // Open changes in diff view from SCM
+    {
+        "key": "cmd+k cmd+d",
+        "command": "git.openChange"
+    },
+
+    // =========================================================================
+    // File Comparison
+    // =========================================================================
+    {
+        "key": "cmd+k cmd+c",
+        "command": "workbench.files.action.compareWithSaved"
+    },
+
+    // =========================================================================
+    // Editor Navigation Enhancements
+    // =========================================================================
+    {
+        "key": "cmd+shift+e",
+        "command": "workbench.view.explorer"
+    }
+]
