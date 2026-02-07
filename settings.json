@@ -20,12 +20,11 @@
   "workbench.colorTheme": "Solarized Light",
   "workbench.fontAliasing": "antialiased",
 
-  // Theme rotation for 48+ age group (optimized for long sessions):
-  // 1. Solarized Light - Warm cream, low contrast, science-backed for extended reading
-  // 2. GitHub Light Default - Cool blue, high clarity for debugging
-  // 3. GitHub Dark Dimmed - Medium soft dark, easy on eyes in evening
-  // 4. GitHub Dark Default - Full dark for low-light environments
-  // Use Ctrl+K Ctrl+T to cycle through themes quickly
+  // 3-Theme System (48+ optimized, easy toggle):
+  // Warm:  Solarized Light    - Cream tones, long sessions (Alt+1)
+  // Cool:  GitHub Light       - Blue tones, debugging    (Alt+2)
+  // Dim:   GitHub Dark Dimmed - Soft dark, evening      (Alt+3)
+  // Cycle: Alt+T to rotate through all three
 
   // --------------------------------------------------------------------------
   // Typography System (optimized for 48+ age group, reading comprehension)

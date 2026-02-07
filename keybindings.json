@@ -103,63 +103,32 @@
     },
 
     // =========================================================================
-    // Quick Theme Switching (Age 48+ optimized for long sessions)
+    // 3-Theme Quick Switch (Warm → Cool → Dim)
     // =========================================================================
-    // F9: Warm cream theme (best for extended reading, low eye strain)
+    // Alt+1: WARM - Solarized Light (cream, best for long sessions)
     {
-        "key": "f9",
-        "command": "workbench.action.setEditorLayout",
-        "args": {
-            "orientation": 0,
-            "groups": [{}]
-        }
-    },
-    {
-        "key": "f9",
-        "command": "workbench.colorTheme",
+        "key": "alt+1",
+        "command": "workbench.action.selectTheme",
         "args": "Solarized Light"
     },
 
-    // F10: Cool blue theme (high clarity for debugging)
+    // Alt+2: COOL - GitHub Light (blue, high clarity debugging)
     {
-        "key": "f10",
-        "command": "workbench.colorTheme",
+        "key": "alt+2",
+        "command": "workbench.action.selectTheme",
         "args": "GitHub Light Default"
     },
 
-    // F11: Soft dark theme (evening sessions, reduced brightness)
+    // Alt+3: DIM - GitHub Dark Dimmed (soft dark, evening)
     {
-        "key": "f11",
-        "command": "workbench.colorTheme",
+        "key": "alt+3",
+        "command": "workbench.action.selectTheme",
         "args": "GitHub Dark Dimmed"
     },
 
-    // F12: Full dark theme (low-light environments)
+    // Alt+T: Cycle through all 3 themes (opens quick picker)
     {
-        "key": "f12",
-        "command": "workbench.colorTheme",
-        "args": "GitHub Dark Default"
-    },
-
-    // Alternative: Ctrl+K Ctrl+1/2/3/4 for theme switching
-    {
-        "key": "ctrl+k ctrl+1",
-        "command": "workbench.colorTheme",
-        "args": "Solarized Light"
-    },
-    {
-        "key": "ctrl+k ctrl+2",
-        "command": "workbench.colorTheme",
-        "args": "GitHub Light Default"
-    },
-    {
-        "key": "ctrl+k ctrl+3",
-        "command": "workbench.colorTheme",
-        "args": "GitHub Dark Dimmed"
-    },
-    {
-        "key": "ctrl+k ctrl+4",
-        "command": "workbench.colorTheme",
-        "args": "GitHub Dark Default"
+        "key": "alt+t",
+        "command": "workbench.action.selectTheme"
     }
 ]
