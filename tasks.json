@@ -43,6 +43,18 @@
             },
             "problemMatcher": []
         },
+        {
+            "label": "Theme: Dark (Solarized Dark)",
+            "type": "shell",
+            "command": "${env:HOME}/.local/bin/vscode-theme-switch",
+            "args": ["Solarized Dark"],
+            "presentation": {
+                "reveal": "silent",
+                "close": true,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
 
         // =====================================================================
         // SDKMAN INTEGRATION (Java Version Management)
@@ -53,7 +65,7 @@
             "command": "bash",
             "args": [
                 "-c",
-                "source ~/.sdkman/bin/sdkman-init.sh && sdk list java | grep -E 'installed|current' -A 2 -B 2"
+                "source ~/.sdkman/bin/sdkman-init.sh && sdk list java | grep installed"
             ],
             "presentation": {
                 "reveal": "always",
@@ -80,12 +92,12 @@
             "problemMatcher": []
         },
         {
-            "label": "SDKMAN: Switch to Java 17",
+            "label": "SDKMAN: Switch to Java 25 (Amazon)",
             "type": "shell",
             "command": "bash",
             "args": [
                 "-c",
-                "source ~/.sdkman/bin/sdkman-init.sh && sdk use java 17.0.12-tem && echo '✅ Switched to Java 17' && java -version"
+                "source ~/.sdkman/bin/sdkman-init.sh && sdk use java 25.0.1-amzn && echo '✅ Switched to Java 25 (Amazon Corretto)' && java -version"
             ],
             "presentation": {
                 "reveal": "always",
@@ -96,12 +108,28 @@
             "problemMatcher": []
         },
         {
-            "label": "SDKMAN: Switch to Java 21",
+            "label": "SDKMAN: Switch to Java 25 (Temurin)",
             "type": "shell",
             "command": "bash",
             "args": [
                 "-c",
-                "source ~/.sdkman/bin/sdkman-init.sh && sdk use java 21.0.5-tem && echo '✅ Switched to Java 21' && java -version"
+                "source ~/.sdkman/bin/sdkman-init.sh && sdk use java 25.0.1-tem && echo '✅ Switched to Java 25 (Temurin)' && java -version"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "SDKMAN: Switch Java (Pick Version)",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "source ~/.sdkman/bin/sdkman-init.sh && echo 'Installed Java versions:' && sdk list java | grep installed && read -p 'Enter version identifier (e.g., 25.0.1-amzn): ' ver && sdk use java $ver && echo '✅ Switched!' && java -version"
             ],
             "presentation": {
                 "reveal": "always",

@@ -126,6 +126,13 @@
         "args": "Theme: Dim (GitHub Dark Dimmed)"
     },
 
+    // Alt+4: DARK - Solarized Dark (warm dark, night coding)
+    {
+        "key": "alt+4",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Theme: Dark (Solarized Dark)"
+    },
+
     // Alt+T: Open theme picker to browse all themes
     {
         "key": "alt+t",

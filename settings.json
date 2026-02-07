@@ -15,16 +15,17 @@
   "window.autoDetectColorScheme": false,
 
   // Preferred themes (positive polarity by day, low-halation by night)
-  "workbench.preferredLightColorTheme": "GitHub Light Default",
-  "workbench.preferredDarkColorTheme": "GitHub Dark Dimmed",
-  "workbench.colorTheme": "GitHub Light Default",
+  "workbench.preferredLightColorTheme": "Solarized Light",
+  "workbench.preferredDarkColorTheme": "Solarized Dark",
+  "workbench.colorTheme": "Solarized Dark",
   "workbench.fontAliasing": "antialiased",
 
-  // 3-Theme System (48+ optimized, easy toggle):
-  // Warm:  Solarized Light    - Cream tones, long sessions (Alt+1)
-  // Cool:  GitHub Light       - Blue tones, debugging    (Alt+2)
-  // Dim:   GitHub Dark Dimmed - Soft dark, evening      (Alt+3)
-  // Cycle: Alt+T to rotate through all three
+  // 4-Theme System (48+ optimized, easy toggle):
+  // Alt+1: Warm  - Solarized Light      (cream, long sessions)
+  // Alt+2: Cool  - GitHub Light         (blue, debugging)
+  // Alt+3: Dim   - GitHub Dark Dimmed   (soft dark, evening)
+  // Alt+4: Dark  - Solarized Dark       (warm dark, night)
+  // Alt+T: Open theme picker
 
   // --------------------------------------------------------------------------
   // Typography System (optimized for 48+ age group, reading comprehension)
