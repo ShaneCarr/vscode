@@ -1,0 +1,54 @@
+[credential]
+	helper = /usr/local/bin/git-credential-manager-core
+	azreposCredentialType = oauth
+	msauthUseBroker = true
+	msauthUseDefaultAccount = true
+	useHttpPath = true
+[user]
+	email = shcarr@microsoft.com
+	name = shane carr
+[credential "azrepos:org/yammer"]
+	username = shcarr@microsoft.com
+	azureAuthority = https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47
+[pager]
+	branch = false
+	get-branch = false
+[credential "azrepos:org/domoreexp"]
+	username = shcarr@microsoft.com
+[credential "https://huggingface.co"]
+	provider = generic
+
+[core]
+	editor = code --wait
+
+[diff]
+	tool = vscode
+
+[difftool]
+	prompt = false
+
+[difftool "vscode"]
+	cmd = code --wait --diff $LOCAL $REMOTE
+
+[merge]
+	tool = vscode
+	conflictstyle = diff3
+
+[mergetool]
+	prompt = false
+	keepBackup = false
+
+[mergetool "vscode"]
+	cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
+
+[alias]
+	# Quick diff and merge aliases
+	dt = difftool
+	mt = mergetool
+	# Show diff in VS Code
+	vdiff = difftool --dir-diff
+	# Interactive merge with VS Code
+	vmerge = mergetool --tool=vscode
+	# PR diff aliases - compare branch against base
+	prdiff = difftool origin/master...HEAD
+	maindiff = difftool origin/main...HEAD

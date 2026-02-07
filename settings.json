@@ -49,7 +49,7 @@
   "editor.matchBrackets": "near",
   "errorLens.enabled": false,
   "errorLens.messageEnabled": false,
-  "errorLens.statusBarMessageEnabled": false,
+  "errorLens.statusBarMessageEnabled": true,
   "errorLens.gutterIconsEnabled": false,
   "editor.renderValidationDecorations": "on",
   // --------------------------------------------------------------------------
@@ -65,7 +65,7 @@
   // --------------------------------------------------------------------------
   // Horizontal scanning reduction
   // --------------------------------------------------------------------------
-  "editor.wordWrap": "bounded",
+  "editor.wordWrap": "on",
   "editor.wordWrapColumn": 100,
   "editor.wrappingIndent": "indent",
   "breadcrumbs.enabled": true,
@@ -124,42 +124,7 @@
   // "editorIndentGuide.background3": "#00c8cc"
   // },
   "workbench.colorCustomizations": {
-    "[GitHub Dark Default]": {
-      "editor.background": "#111214",
-
-      "editorIndentGuide.background1": "#AECBFA33",
-      "editorIndentGuide.background2": "#C5E1A533",
-      "editorIndentGuide.background3": "#FFCC8033",
-      "editorIndentGuide.background4": "#F8BBD033",
-      "editorIndentGuide.background5": "#D1C4E933",
-      "editorIndentGuide.background6": "#80DEEA33",
-
-      "editorIndentGuide.activeBackground1": "#AECBFA88",
-      "editorIndentGuide.activeBackground2": "#C5E1A588",
-      "editorIndentGuide.activeBackground3": "#FFCC8088",
-      "editorIndentGuide.activeBackground4": "#F8BBD088",
-      "editorIndentGuide.activeBackground5": "#D1C4E988",
-      "editorIndentGuide.activeBackground6": "#80DEEA88"
-    },
-
-    "[GitHub Light Default]": {
-      // Don’t override editor.background here; let the light theme be light.
-
-      // Light theme needs darker guides (same hues, but with black-ish alpha)
-      "editorIndentGuide.background1": "#1A73E833",
-      "editorIndentGuide.background2": "#34A85333",
-      "editorIndentGuide.background3": "#FBBC0533",
-      "editorIndentGuide.background4": "#EA433533",
-      "editorIndentGuide.background5": "#7E57C233",
-      "editorIndentGuide.background6": "#00ACC133",
-
-      "editorIndentGuide.activeBackground1": "#1A73E888",
-      "editorIndentGuide.activeBackground2": "#34A85388",
-      "editorIndentGuide.activeBackground3": "#FBBC0588",
-      "editorIndentGuide.activeBackground4": "#EA433588",
-      "editorIndentGuide.activeBackground5": "#7E57C288",
-      "editorIndentGuide.activeBackground6": "#00ACC188"
-    }
+    "editorInfo.foreground": "#0080ff6a"
   },
   // --------------------------------------------------------------------------
   // Markdown / formatting noise
@@ -209,8 +174,8 @@
   // --------------------------------------------------------------------------
   "java.configuration.detectJdksAtStart": true,
   "java.configuration.updateBuildConfiguration": "interactive",
-  "java.jdt.ls.java.home": "/Users/shane/.sdkman/candidates/java/current",
-  "java.import.gradle.java.home": "/Users/shane/.sdkman/candidates/java/current",
+  "java.jdt.ls.java.home": "/home/shane/.sdkman/candidates/java/current",
+  "java.import.gradle.java.home": "/home/shane/.sdkman/candidates/java/current",
 
   "java.compile.nullAnalysis.mode": "automatic",
   "java.maxConcurrentBuilds": 12,
@@ -266,9 +231,8 @@
   "netbeans.javaSupport.enabled": false,
   "kotlin.languageServer.enabled": false,
   "kotlin.debugAdapter.enabled": false,
-  "jdk.telemetry.enabled": false,
   "geminicodeassist.displayInlineContextHint": false,
-  "workbench.colorTheme": "GitHub Dark Default",
+  "workbench.colorTheme": "GitHub Light Default",
   "workbench.fontAliasing": "antialiased",
   "editor.mouseWheelZoom": true,
     "java.jdt.ls.vmargs": "-XX:+UseZGC -Xms2g -Xmx8g",
@@ -350,4 +314,15 @@
   // --------------------------------------------------------------------------
   "editor.stickyScroll.maxLineCount": 5,
   "editor.stickyScroll.defaultModel": "outlineModel",
+  "workbench.editor.labelFormat": "short",
+  "explorer.compactFolders": false,
+  "editor.guides.bracketPairs": true,
+  "projectManager.openInNewWindowWhenClickingInStatusBar": true,
+  "errorLens.statusBarColorsEnabled": true,
+  "errorLens.statusBarMessageType": "closestSeverity",
+  "errorLens.followCursor": "closestProblem",
+  "errorLens.scrollbarHackEnabled": true,
+  "errorLens.fontStyleItalic": true,
+  "errorLens.messageBackgroundMode": "message",
+  "jdk.telemetry.enabled": false,
 }
