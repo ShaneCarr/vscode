@@ -103,30 +103,30 @@
     },
 
     // =========================================================================
-    // 3-Theme Quick Switch (Warm → Cool → Dim)
+    // 3-Theme Quick Switch (Warm → Cool → Dim) via Tasks
     // =========================================================================
     // Alt+1: WARM - Solarized Light (cream, best for long sessions)
     {
         "key": "alt+1",
-        "command": "workbench.action.selectTheme",
-        "args": "Solarized Light"
+        "command": "workbench.action.tasks.runTask",
+        "args": "Theme: Warm (Solarized Light)"
     },
 
     // Alt+2: COOL - GitHub Light (blue, high clarity debugging)
     {
         "key": "alt+2",
-        "command": "workbench.action.selectTheme",
-        "args": "GitHub Light Default"
+        "command": "workbench.action.tasks.runTask",
+        "args": "Theme: Cool (GitHub Light)"
     },
 
     // Alt+3: DIM - GitHub Dark Dimmed (soft dark, evening)
     {
         "key": "alt+3",
-        "command": "workbench.action.selectTheme",
-        "args": "GitHub Dark Dimmed"
+        "command": "workbench.action.tasks.runTask",
+        "args": "Theme: Dim (GitHub Dark Dimmed)"
     },
 
-    // Alt+T: Cycle through all 3 themes (opens quick picker)
+    // Alt+T: Open theme picker to browse all themes
     {
         "key": "alt+t",
         "command": "workbench.action.selectTheme"

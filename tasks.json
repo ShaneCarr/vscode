@@ -1,13 +1,220 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
+    // =========================================================================
+    // VS Code Tasks (Shane's Linux Setup with SDKMAN)
+    // =========================================================================
     "version": "2.0.0",
     "tasks": [
+        // =====================================================================
+        // THEME SWITCHING (3-Theme System: Warm/Cool/Dim)
+        // =====================================================================
         {
-            "label": "echo",
+            "label": "Theme: Warm (Solarized Light)",
             "type": "shell",
-            "command": "echo Hello"
+            "command": "bash",
+            "args": [
+                "-c",
+                "sed -i 's/\"workbench.colorTheme\": \".*\"/\"workbench.colorTheme\": \"Solarized Light\"/' ~/.config/Code/User/settings.json && notify-send '🌅 Theme' 'Switched to Warm (Solarized Light)' 2>/dev/null || echo '✅ Switched to Warm (Solarized Light)'"
+            ],
+            "presentation": {
+                "reveal": "never",
+                "close": true,
+                "panel": "shared"
+            },
+            "problemMatcher": []
         },
+        {
+            "label": "Theme: Cool (GitHub Light)",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "sed -i 's/\"workbench.colorTheme\": \".*\"/\"workbench.colorTheme\": \"GitHub Light Default\"/' ~/.config/Code/User/settings.json && notify-send '💙 Theme' 'Switched to Cool (GitHub Light)' 2>/dev/null || echo '✅ Switched to Cool (GitHub Light)'"
+            ],
+            "presentation": {
+                "reveal": "never",
+                "close": true,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Theme: Dim (GitHub Dark Dimmed)",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "sed -i 's/\"workbench.colorTheme\": \".*\"/\"workbench.colorTheme\": \"GitHub Dark Dimmed\"/' ~/.config/Code/User/settings.json && notify-send '🌙 Theme' 'Switched to Dim (GitHub Dark Dimmed)' 2>/dev/null || echo '✅ Switched to Dim (GitHub Dark Dimmed)'"
+            ],
+            "presentation": {
+                "reveal": "never",
+                "close": true,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+
+        // =====================================================================
+        // SDKMAN INTEGRATION (Java Version Management)
+        // =====================================================================
+        {
+            "label": "SDKMAN: List Java Versions",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "source ~/.sdkman/bin/sdkman-init.sh && sdk list java | grep -E 'installed|current' -A 2 -B 2"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "SDKMAN: Current Java Version",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "source ~/.sdkman/bin/sdkman-init.sh && echo '📦 Current Java Version:' && java -version 2>&1 && echo '' && echo '📍 JAVA_HOME:' && echo $JAVA_HOME"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "SDKMAN: Switch to Java 17",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "source ~/.sdkman/bin/sdkman-init.sh && sdk use java 17.0.12-tem && echo '✅ Switched to Java 17' && java -version"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "SDKMAN: Switch to Java 21",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "source ~/.sdkman/bin/sdkman-init.sh && sdk use java 21.0.5-tem && echo '✅ Switched to Java 21' && java -version"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "SDKMAN: Install New Java Version",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "source ~/.sdkman/bin/sdkman-init.sh && sdk list java | less"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true
+            },
+            "problemMatcher": []
+        },
+
+        // =====================================================================
+        // MAVEN / BUILD TASKS (with SDKMAN Java)
+        // =====================================================================
+        {
+            "label": "Maven: Clean Install",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "source ~/.sdkman/bin/sdkman-init.sh && mvn clean install -DskipTests"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true,
+                "focus": true
+            },
+            "problemMatcher": ["$maven"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Maven: Test",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "source ~/.sdkman/bin/sdkman-init.sh && mvn test"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true,
+                "focus": true
+            },
+            "problemMatcher": ["$maven"],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Maven: Clean",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "source ~/.sdkman/bin/sdkman-init.sh && mvn clean"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": false
+            },
+            "problemMatcher": ["$maven"]
+        },
+        {
+            "label": "Maven: Package",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "source ~/.sdkman/bin/sdkman-init.sh && mvn package -DskipTests"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true,
+                "focus": true
+            },
+            "problemMatcher": ["$maven"]
+        },
+
+        // =====================================================================
+        // GIT DIFF TASKS
+        // =====================================================================
         {
             "label": "Git: Diff (ignore whitespace)",
             "type": "shell",
@@ -72,30 +279,6 @@
             "label": "Git: Show All Modified Files",
             "type": "shell",
             "command": "git status --short",
-            "problemMatcher": [],
-            "presentation": {
-                "reveal": "always",
-                "panel": "dedicated",
-                "clear": true,
-                "focus": true
-            }
-        },
-        {
-            "label": "Toggle: Diff Side-by-Side View",
-            "type": "shell",
-            "command": "SETTINGS=\"$HOME/Library/Application Support/Code/User/settings.json\"; CURRENT=$(grep '\"diffEditor.renderSideBySide\"' \"$SETTINGS\" | grep -o 'true\\|false'); if [ \"$CURRENT\" = \"true\" ]; then NEW=\"false\"; MODE=\"INLINE\"; else NEW=\"true\"; MODE=\"SIDE-BY-SIDE\"; fi; sed -i '' \"s/\\\"diffEditor.renderSideBySide\\\": $CURRENT/\\\"diffEditor.renderSideBySide\\\": $NEW/\" \"$SETTINGS\"; echo \"✅ Diff view mode changed to: $MODE\"; echo \"\"; echo \"Current setting: diffEditor.renderSideBySide = $NEW\"; echo \"\"; echo \"ℹ️  Close and reopen any diff views to see the change.\"",
-            "problemMatcher": [],
-            "presentation": {
-                "reveal": "always",
-                "panel": "dedicated",
-                "clear": true,
-                "focus": true
-            }
-        },
-        {
-            "label": "View: Current Diff Mode",
-            "type": "shell",
-            "command": "SETTINGS=\"$HOME/Library/Application Support/Code/User/settings.json\"; CURRENT=$(grep '\"diffEditor.renderSideBySide\"' \"$SETTINGS\" | grep -o 'true\\|false'); if [ \"$CURRENT\" = \"true\" ]; then echo \"Current mode: SIDE-BY-SIDE\"; else echo \"Current mode: INLINE\"; fi; echo \"\"; echo \"Setting: diffEditor.renderSideBySide = $CURRENT\"",
             "problemMatcher": [],
             "presentation": {
                 "reveal": "always",

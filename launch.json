@@ -1,61 +1,102 @@
 {
+  // =========================================================================
+  // Debug Configurations (Fast & Reliable Remote Debugging)
+  // =========================================================================
   "version": "0.2.0",
   "configurations": [
+    // =======================================================================
+    // JAVA: Remote Debugging (Fast & Reliable)
+    // =======================================================================
     {
-      "name": "TeamLabs: Remote Attach (JDWP 30166)",
+      "name": "Java: Remote Attach (JDWP 30166) TeamLabs",
       "type": "java",
       "request": "attach",
       "hostName": "localhost",
-      "port": 30166
+      "port": 30166,
+      "timeout": 60000,
+      "projectName": "${workspaceFolder}",
+      "stepFilters": {
+        "skipClasses": ["$JDK", "java.*", "javax.*", "org.springframework.*"],
+        "skipSynthetics": true
+      }
     },
-
     {
-      "name": "Local: Launch Main (pick class/project)",
-      "type": "java",
-      "request": "launch",
-      "mainClass": "${command:java.pickMainClass}",
-      "projectName": "${command:java.pickProject}",
-      "console": "internalConsole"
-    },
-
-    {
-      "name": "Local: Launch Main (with JDWP :5005)",
-      "type": "java",
-      "request": "launch",
-      "mainClass": "${command:java.pickMainClass}",
-      "projectName": "${command:java.pickProject}",
-      "vmArgs": "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005",
-      "console": "internalConsole"
-    },
-
-    {
-      "name": "Local: Attach (JDWP 5005)",
+      "name": "Java: Remote Attach (JDWP 5005) Local",
       "type": "java",
       "request": "attach",
       "hostName": "localhost",
-      "port": 5005
+      "port": 5005,
+      "timeout": 60000,
+      "projectName": "${workspaceFolder}",
+      "stepFilters": {
+        "skipClasses": ["$JDK", "java.*", "javax.*"],
+        "skipSynthetics": true
+      }
+    },
+    {
+      "name": "Java: Remote Attach (Custom Host/Port)",
+      "type": "java",
+      "request": "attach",
+      "hostName": "${input:remoteHost}",
+      "port": "${input:remotePort}",
+      "timeout": 60000,
+      "projectName": "${workspaceFolder}"
     },
 
+    // =======================================================================
+    // JAVA: Local Launch (Fast)
+    // =======================================================================
     {
-      "name": "Tests: Run (Maven test)",
+      "name": "Java: Launch Main (Fast)",
       "type": "java",
       "request": "launch",
       "mainClass": "${command:java.pickMainClass}",
       "projectName": "${command:java.pickProject}",
-      "preLaunchTask": "mvn: test",
+      "console": "integratedTerminal",
+      "shortenCommandLine": "jarmanifest",
+      "vmArgs": "-XX:+UseZGC -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
+    },
+    {
+      "name": "Java: Launch Main (with Remote Debug Port 5005)",
+      "type": "java",
+      "request": "launch",
+      "mainClass": "${command:java.pickMainClass}",
+      "projectName": "${command:java.pickProject}",
+      "vmArgs": "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -XX:+UseZGC",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Java: Launch Main (Debug Mode - Suspend on Start)",
+      "type": "java",
+      "request": "launch",
+      "mainClass": "${command:java.pickMainClass}",
+      "projectName": "${command:java.pickProject}",
+      "vmArgs": "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005",
+      "console": "integratedTerminal"
+    },
+
+    // =======================================================================
+    // JAVA: Testing & Quality
+    // =======================================================================
+    {
+      "name": "Java: Run Tests (Maven)",
+      "type": "java",
+      "request": "launch",
+      "mainClass": "${command:java.pickMainClass}",
+      "projectName": "${command:java.pickProject}",
+      "preLaunchTask": "Maven: Test",
       "noDebug": true
     },
-
     {
-      "name": "Tests: Debug (use Testing view)",
+      "name": "Java: Debug Test (Current)",
       "type": "java",
       "request": "launch",
       "mainClass": "${command:java.test.pickTest}",
-      "projectName": "${command:java.pickProject}"
+      "projectName": "${command:java.pickProject}",
+      "console": "integratedTerminal"
     },
-
     {
-      "name": "Coverage: Run (Maven verify + JaCoCo report)",
+      "name": "Java: Coverage Report (JaCoCo)",
       "type": "java",
       "request": "launch",
       "mainClass": "${command:java.pickMainClass}",
@@ -64,31 +105,127 @@
       "noDebug": true
     },
 
+    // =======================================================================
+    // PYTHON: Remote & Local Debugging
+    // =======================================================================
     {
-      "name": "Checkstyle: Run (Maven)",
-      "type": "java",
+      "name": "Python: Remote Attach (debugpy 5678)",
+      "type": "debugpy",
+      "request": "attach",
+      "connect": {
+        "host": "localhost",
+        "port": 5678
+      },
+      "pathMappings": [
+        {
+          "localRoot": "${workspaceFolder}",
+          "remoteRoot": "."
+        }
+      ],
+      "justMyCode": false
+    },
+    {
+      "name": "Python: Current File",
+      "type": "debugpy",
       "request": "launch",
-      "mainClass": "${command:java.pickMainClass}",
-      "projectName": "${command:java.pickProject}",
-      "preLaunchTask": "mvn: checkstyle",
-      "noDebug": true
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Python: Django",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/manage.py",
+      "args": ["runserver", "--noreload"],
+      "django": true,
+      "justMyCode": true
     },
 
+    // =======================================================================
+    // NODE.JS: Remote & Local Debugging
+    // =======================================================================
     {
-      "name": "Quality: Verify (tests + coverage + style)",
-      "type": "java",
+      "name": "Node: Remote Attach (9229)",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "address": "localhost",
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/app",
+      "skipFiles": ["<node_internals>/**"],
+      "timeout": 60000
+    },
+    {
+      "name": "Node: Launch Current File",
+      "type": "node",
       "request": "launch",
-      "mainClass": "${command:java.pickMainClass}",
-      "projectName": "${command:java.pickProject}",
-      "preLaunchTask": "mvn: quality",
-      "noDebug": true
+      "program": "${file}",
+      "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal"
+    },
+
+    // =======================================================================
+    // DOCKER: Remote Container Debugging
+    // =======================================================================
+    {
+      "name": "Docker: Attach to Java Container (5005)",
+      "type": "java",
+      "request": "attach",
+      "hostName": "localhost",
+      "port": 5005,
+      "timeout": 120000,
+      "projectName": "${workspaceFolder}"
+    },
+    {
+      "name": "Docker: Attach to Node Container (9229)",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "address": "localhost",
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/usr/src/app",
+      "timeout": 120000
     }
   ],
 
+  // =========================================================================
+  // Compound Configurations (Multi-target Debugging)
+  // =========================================================================
   "compounds": [
     {
-      "name": "Local: Launch (JDWP 5005) + Attach",
-      "configurations": ["Local: Launch Main (with JDWP :5005)", "Local: Attach (JDWP 5005)"]
+      "name": "Java: Launch + Attach (Local JDWP)",
+      "configurations": [
+        "Java: Launch Main (with Remote Debug Port 5005)",
+        "Java: Remote Attach (JDWP 5005) Local"
+      ],
+      "stopAll": true
+    },
+    {
+      "name": "Full Stack: Java + Node",
+      "configurations": [
+        "Java: Remote Attach (JDWP 5005) Local",
+        "Node: Remote Attach (9229)"
+      ],
+      "stopAll": true
+    }
+  ],
+
+  // =========================================================================
+  // Input Variables (for custom remote debugging)
+  // =========================================================================
+  "inputs": [
+    {
+      "id": "remoteHost",
+      "type": "promptString",
+      "description": "Remote host (e.g., localhost, 192.168.1.100)",
+      "default": "localhost"
+    },
+    {
+      "id": "remotePort",
+      "type": "promptString",
+      "description": "Remote debug port (e.g., 5005, 8000, 9229)",
+      "default": "5005"
     }
   ]
 }
