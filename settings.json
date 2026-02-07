@@ -11,57 +11,108 @@
   // --------------------------------------------------------------------------
   // Global UI / Theme behavior (science-based)
   // --------------------------------------------------------------------------
-  "window.zoomLevel": 1,
+  "window.zoomLevel": 0,
   "window.autoDetectColorScheme": false,
 
   // Preferred themes (positive polarity by day, low-halation by night)
   "workbench.preferredLightColorTheme": "GitHub Light Default",
-  "workbench.preferredDarkColorTheme": "GitHub Dark Default",
-  "workbench.list.fontSize": 22,
-  "workbench.list.lineHeight": 28,
-  "workbench.tree.fontSize": 22,
-  "workbench.list.fontFamily": "Blex Mono Nerd Font, monospace",
+  "workbench.preferredDarkColorTheme": "GitHub Dark Dimmed",
+  "workbench.colorTheme": "Solarized Light",
+  "workbench.fontAliasing": "antialiased",
+
+  // Theme rotation for 48+ age group (optimized for long sessions):
+  // 1. Solarized Light - Warm cream, low contrast, science-backed for extended reading
+  // 2. GitHub Light Default - Cool blue, high clarity for debugging
+  // 3. GitHub Dark Dimmed - Medium soft dark, easy on eyes in evening
+  // 4. GitHub Dark Default - Full dark for low-light environments
+  // Use Ctrl+K Ctrl+T to cycle through themes quickly
+
   // --------------------------------------------------------------------------
-  // Typography (eye strain reduction)
+  // Typography System (optimized for 48+ age group, reading comprehension)
+  // Strategy: Consistent 20px base with generous line heights (1.6-1.8x)
   // --------------------------------------------------------------------------
-  //"editor.fontFamily": "Blex Mono Nerd Font, monospace",
-  //"editor.fontFamily": "Blex Mono Nerd Font Bold",
+
+  // Main editor: Primary focus area
   "editor.fontFamily": "BlexMono Nerd Font Mono",
-  "editor.fontSize": 22,
-  "editor.lineHeight": 32,
-  "editor.letterSpacing": 0.4,
+  "editor.fontSize": 20,
+  "editor.lineHeight": 34,          // 1.7x for excellent readability
+  "editor.letterSpacing": 0.5,      // Slightly increased for clarity
   "editor.fontLigatures": true,
-  "editor.fontWeight": "500",
+  "editor.fontWeight": "500",       // Medium weight for good contrast
+  "editor.mouseWheelZoom": true,
+  "editor.cursorWidth": 2,          // Slightly thicker cursor
+  "editor.cursorStyle": "line",     // Classic line cursor
+
+  // Workbench lists (file explorer, search results, etc.)
+  "workbench.list.fontSize": 19,
+  "workbench.list.lineHeight": 32,  // 1.68x for comfortable scanning
+  "workbench.tree.fontSize": 19,
+  "workbench.list.fontFamily": "Blex Mono Nerd Font, monospace",
+  "workbench.list.smoothScrolling": true,
+
   // --------------------------------------------------------------------------
-  // Core readability: reduce visual noise
+  // Core readability: reduce visual noise, enhance structure
   // --------------------------------------------------------------------------
   "editor.showUnused": false,
-  //"editor.renderValidationDecorations": "off",
   "editor.lightbulb.enabled": "off",
   "editor.parameterHints.enabled": false,
   "editor.inlayHints.enabled": "off",
+
+  // Whitespace rendering (helps see code structure without clutter)
+  "editor.renderWhitespace": "boundary",    // Show at word boundaries only
+
+  // Editor padding (breathing room reduces eye strain)
+  "editor.padding.top": 16,
+  "editor.padding.bottom": 16,
 
   // Highlight suppression (schema-valid)
   "editor.selectionHighlight": true,
   "editor.wordHighlight": false,
   "editor.wordHighlightStrong": false,
-  "editor.occurrencesHighlight":"singleFile",
+  "editor.occurrencesHighlight": "singleFile",
   "editor.matchBrackets": "near",
-  "errorLens.enabled": false,
+  "editor.renderValidationDecorations": "on",
+
+  // ErrorLens: minimal configuration (status bar only)
+  "errorLens.enabled": true,
   "errorLens.messageEnabled": false,
   "errorLens.statusBarMessageEnabled": true,
+  "errorLens.statusBarColorsEnabled": true,
+  "errorLens.statusBarMessageType": "closestSeverity",
   "errorLens.gutterIconsEnabled": false,
-  "editor.renderValidationDecorations": "on",
+  "errorLens.followCursor": "closestProblem",
+  "errorLens.scrollbarHackEnabled": true,
+  "errorLens.fontStyleItalic": true,
+  "errorLens.messageBackgroundMode": "message",
+
   // --------------------------------------------------------------------------
   // Structure & spatial orientation
   // --------------------------------------------------------------------------
   "editor.guides.indentation": true,
   "editor.guides.highlightActiveIndentation": true,
+  "editor.guides.bracketPairs": true,
+  "editor.guides.bracketPairsHorizontal": "active",
+
+  // Bracket pair colorization (enhanced readability)
+  "editor.bracketPairColorization.enabled": true,
 
   "editor.renderLineHighlight": "line",
   "editor.cursorSurroundingLines": 6,
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": "on",
+
   "editor.stickyScroll.enabled": true,
+  "editor.stickyScroll.maxLineCount": 5,
+  "editor.stickyScroll.defaultModel": "outlineModel",
+
   "editor.smoothScrolling": true,
+
+  // Semantic highlighting for better code understanding
+  "editor.semanticHighlighting.enabled": true,
+  "editor.semanticTokenColorCustomizations": {
+    "enabled": true
+  },
+
   // --------------------------------------------------------------------------
   // Horizontal scanning reduction
   // --------------------------------------------------------------------------
@@ -69,6 +120,10 @@
   "editor.wordWrapColumn": 100,
   "editor.wrappingIndent": "indent",
   "breadcrumbs.enabled": true,
+  "breadcrumbs.symbolPath": "on",
+  "breadcrumbs.symbolSortOrder": "position",
+  "breadcrumbs.fontSize": 16,               // Visible but not intrusive
+
   // --------------------------------------------------------------------------
   // Explorer / minimap / chrome cleanup
   // --------------------------------------------------------------------------
@@ -78,15 +133,54 @@
   "workbench.tree.indent": 25,
   "workbench.tree.renderIndentGuides": "always",
   "workbench.editor.revealIfOpen": true,
+  "workbench.editor.labelFormat": "short",
+  "workbench.editor.tabActionCloseVisibility": false,
+  "workbench.activityBar.location": "default",
+
+  // Explorer enhancements
+  "explorer.sortOrder": "type",
+  "explorer.compactFolders": false,
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.js, ${capture}.d.ts, ${capture}.test.ts",
+    "*.tsx": "${capture}.test.tsx",
+    "*.java": "${capture}.class",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml",
+    "pom.xml": "mvnw, mvnw.cmd, .mvn"
+  },
 
   // --------------------------------------------------------------------------
-  // Terminal readability
+  // Terminal, Debug Console, Output (critical for reading command output)
   // --------------------------------------------------------------------------
   "terminal.integrated.fontFamily": "Blex Mono Nerd Font, monospace",
-  "terminal.integrated.fontSize": 15,
-  "terminal.integrated.lineHeight": 1.2,
+  "terminal.integrated.fontSize": 18,       // Up from 15 - much more readable!
+  "terminal.integrated.lineHeight": 1.5,    // Up from 1.2 - better spacing
+  "terminal.integrated.letterSpacing": 0.5,
+  "terminal.integrated.fontWeight": "500",
   "terminal.integrated.tabs.hideCondition": "never",
   "terminal.integrated.enablePersistentSessions": false,
+
+  // Debug console (same as terminal for consistency)
+  "debug.console.fontSize": 18,
+  "debug.console.lineHeight": 27,           // 1.5x
+  "debug.console.fontFamily": "Blex Mono Nerd Font, monospace",
+
+  // Linux terminal profiles (SDKMAN integration)
+  "terminal.integrated.profiles.linux": {
+    "bash": {
+      "path": "bash",
+      "env": {
+        "JAVA_HOME": "/home/shane/.sdkman/candidates/java/current"
+      }
+    },
+    "zsh": {
+      "path": "zsh",
+      "env": {
+        "JAVA_HOME": "/home/shane/.sdkman/candidates/java/current"
+      }
+    }
+  },
+  "terminal.integrated.defaultProfile.linux": "bash",
 
   // --------------------------------------------------------------------------
   // Rulers (soft guides only)
@@ -94,38 +188,41 @@
   "editor.rulers": [{ "column": 100, "color": "#FFFFFF14" }],
 
   // --------------------------------------------------------------------------
-  // Color tuning (low contrast, no glow)
+  // Color tuning (enhanced for readability, Age 48+ optimization)
   // --------------------------------------------------------------------------
-  // "workbench.colorCustomizations": {
-
-  //     "editorIndentGuide.activeBackground1": "#ffc400",
-  // "editorIndentGuide.activeBackground2": "#ff0000",
-  // "editorIndentGuide.activeBackground3": "#a51283",
-  // "editorIndentGuide.activeBackground4": "#ff8c00",
-  // "editorIndentGuide.activeBackground5": "#ffc400",
-  // "editorIndentGuide.activeBackground6": "#ffc400",
-
-  //        // non-active indent guide colors
-  // "editorIndentGuide.background1": "#0066ff",
-  // "editorIndentGuide.background2": "#00e5ff",
-  // "editorIndentGuide.background3": "#00e5ff",
-  // "editorIndentGuide.background4": "#00e5ff",
-  // "editorIndentGuide.background5": "#00e5ff",
-  // "editorIndentGuide.background6": "#00e5ff",
-  // "editor.background": "#111214"
-
-  //   "editorIndentGuide.activeBackground1": "#e6b800",
-  // "editorIndentGuide.activeBackground2": "#cc0000",
-  // "editorIndentGuide.activeBackground3": "#8a0f6b",
-  // "editorIndentGuide.activeBackground4": "#cc7000",
-
-  // "editorIndentGuide.background1": "#0055cc",
-  // "editorIndentGuide.background2": "#00c8cc",
-  // "editorIndentGuide.background3": "#00c8cc"
-  // },
   "workbench.colorCustomizations": {
-    "editorInfo.foreground": "#0080ff6a"
+    "editorInfo.foreground": "#0080ff6a",
+    // Enhanced cursor visibility (blue, easy to spot)
+    "editorCursor.foreground": "#0066cc",
+    // Subtle but visible line highlight
+    "editor.lineHighlightBackground": "#e8f4fd22",
+    "editor.lineHighlightBorder": "#e8f4fd00"
   },
+
+  // --------------------------------------------------------------------------
+  // IntelliSense & Code Suggestions (optimized for quality)
+  // --------------------------------------------------------------------------
+  "editor.suggest.preview": true,
+  "editor.suggest.showStatusBar": true,
+  "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "off",
+    "strings": "on"
+  },
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "editor.snippetSuggestions": "top",
+  "editor.suggestSelection": "first",
+
+  // --------------------------------------------------------------------------
+  // Code Actions & Formatting
+  // --------------------------------------------------------------------------
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll": "never"
+  },
+
   // --------------------------------------------------------------------------
   // Markdown / formatting noise
   // --------------------------------------------------------------------------
@@ -135,7 +232,10 @@
 
   "[markdown]": {
     "files.insertFinalNewline": false,
-    "files.trimFinalNewlines": false
+    "files.trimFinalNewlines": false,
+    "editor.formatOnSave": false,
+    "editor.fontSize": 20,
+    "editor.lineHeight": 34
   },
 
   "markdownlint.config": {
@@ -143,14 +243,72 @@
     "MD041": false
   },
 
+  // Markdown preview (reading documentation)
+  "markdown.preview.fontSize": 18,
+  "markdown.preview.lineHeight": 1.7,
+
   // --------------------------------------------------------------------------
-  // Language basics
+  // Hover & Suggestion Widgets (tooltips, autocomplete)
   // --------------------------------------------------------------------------
+  "editor.hover.enabled": "on",
+  "editor.hover.delay": 500,
+  "editor.hover.sticky": true,
+
+  // Suggest widget (autocomplete popup)
+  "editor.suggestFontSize": 18,             // Readable suggestions
+  "editor.suggestLineHeight": 28,           // Comfortable line height
+  "editor.codeLensFontSize": 16,            // Slightly smaller for code lens
+
+  // Find widget (search box)
+  "editor.find.fontSize": 17,
+
+  // --------------------------------------------------------------------------
+  // Accessibility Enhancements (Age 48+ optimization)
+  // --------------------------------------------------------------------------
+  // Render control characters for better debugging
+  "editor.renderControlCharacters": true,
+
+  // Status bar visibility
+  "workbench.statusBar.visible": true,
+
+  // --------------------------------------------------------------------------
+  // Language-specific settings
+  // --------------------------------------------------------------------------
+
+  // Python
   "python.defaultInterpreterPath": "/opt/homebrew/bin/python3.13",
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.memory.keepLibraryAst": false,
+
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+
+  // JSON/JSONC
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
 
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+
+  // TypeScript/JavaScript (selective inlay hints)
+  "[typescript]": {
+    "editor.inlayHints.enabled": "on"
+  },
+
+  "[javascript]": {
+    "editor.inlayHints.enabled": "on"
+  },
+
+  "typescript.inlayHints.parameterNames.enabled": "literals",
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
 
   // --------------------------------------------------------------------------
   // Separators extension (method-only, top-level)
@@ -164,86 +322,6 @@
   "separators.methods.borderStyle": "solid",
 
   // --------------------------------------------------------------------------
-  // Git / blame suppression
-  // --------------------------------------------------------------------------
-  "gitlens.currentLine.enabled": false,
-  "gitlens.codeLens.enabled": false,
-
-  // --------------------------------------------------------------------------
-  // Java (SDKMAN is source of truth)
-  // --------------------------------------------------------------------------
-  "java.configuration.detectJdksAtStart": true,
-  "java.configuration.updateBuildConfiguration": "interactive",
-  "java.jdt.ls.java.home": "/home/shane/.sdkman/candidates/java/current",
-  "java.import.gradle.java.home": "/home/shane/.sdkman/candidates/java/current",
-
-  "java.compile.nullAnalysis.mode": "automatic",
-  "java.maxConcurrentBuilds": 12,
-  "java.sources.organizeImports.staticStarThreshold": 1,
-
-  "java.debug.settings.hotCodeReplace": "never",
-  "java.debug.settings.showToString": false,
-  "java.debug.settings.showLogicalStructure": false,
-  "java.debug.settings.maxStringLength": 300,
-  "java.debug.settings.stepping.skipSynthetics": true,
-  "java.debug.settings.stepping.skipStaticInitializers": true,
-  "java.debug.settings.stepping.skipConstructors": true,
-  "debug.inlineValues": "off",
-  "debug.autoExpandLazyVariables": "off",
-  "java.debug.settings.stepping.skipClasses": [
-    "$JDK",
-    "$Libraries",
-    "java.*",
-    "javax.*",
-    "org.springframework.*",
-    "org.apache.*",
-    "org.slf4j.*",
-    "ch.qos.logback.*",
-    "reactor.core.*",
-    "kotlin.*"
-  ],
-
-  // --------------------------------------------------------------------------
-  // Terminal / Maven / PlantUML follow SDKMAN
-  // --------------------------------------------------------------------------
-  "terminal.integrated.profiles.osx": {
-    "zsh": {
-      "path": "zsh",
-      "env": {
-        "JAVA_HOME": "/Users/shane/.sdkman/candidates/java/current"
-      }
-    }
-  },
-  "terminal.integrated.defaultProfile.osx": "zsh",
-
-  "maven.terminal.customEnv": [
-    {
-      "environmentVariable": "JAVA_HOME",
-      "value": "/Users/shane/.sdkman/candidates/java/current"
-    }
-  ],
-
-  "plantuml.java": "/Users/shane/.sdkman/candidates/java/current/bin/java",
-
-  // --------------------------------------------------------------------------
-  // Disable competing language servers
-  // --------------------------------------------------------------------------
-  "netbeans.javaSupport.enabled": false,
-  "kotlin.languageServer.enabled": false,
-  "kotlin.debugAdapter.enabled": false,
-  "geminicodeassist.displayInlineContextHint": false,
-  "workbench.colorTheme": "GitHub Light Default",
-  "workbench.fontAliasing": "antialiased",
-  "editor.mouseWheelZoom": true,
-    "java.jdt.ls.vmargs": "-XX:+UseZGC -Xms2g -Xmx8g",
-  "files.watcherExclude": {
-    "**/target/**": true,
-    "**/.m2/**": true
-  },
-  "search.followSymlinks": false,
-  "python.analysis.memory.keepLibraryAst": false,
-  "docker.extension.enableComposeLanguageServer": false,
-    // --------------------------------------------------------------------------
   // Git Change Tracking (inline diff indicators in gutter)
   // --------------------------------------------------------------------------
   "scm.diffDecorations": "all",
@@ -266,6 +344,18 @@
   "git.confirmSync": false,
 
   // --------------------------------------------------------------------------
+  // Git Merge Editor (NEW - powerful 3-way merge interface)
+  // --------------------------------------------------------------------------
+  "git.mergeEditor": true,
+  "merge-conflict.autoNavigateNextConflict.enabled": true,
+
+  // --------------------------------------------------------------------------
+  // GitLens (minimal, blame suppression)
+  // --------------------------------------------------------------------------
+  "gitlens.currentLine.enabled": false,
+  "gitlens.codeLens.enabled": false,
+
+  // --------------------------------------------------------------------------
   // Local History & Timeline (track every change for easy comparison)
   // --------------------------------------------------------------------------
   "workbench.localHistory.enabled": true,
@@ -284,45 +374,122 @@
   // --------------------------------------------------------------------------
   // Diff Editor (optimized for readability & navigation)
   // --------------------------------------------------------------------------
-  "diffEditor.renderSideBySide": true,              // Side-by-side easier with large fonts
-  "diffEditor.hideUnchangedRegions.enabled": true, // Collapse unchanged (easier scanning)
+  "diffEditor.renderSideBySide": true,
+  "diffEditor.hideUnchangedRegions.enabled": true,
   "diffEditor.hideUnchangedRegions.minimumLineCount": 3,
   "diffEditor.hideUnchangedRegions.contextLineCount": 3,
   "diffEditor.ignoreTrimWhitespace": true,
-  "diffEditor.renderIndicators": true,             // Show +/- indicators
-  "diffEditor.codeLens": true,                     // Show accept/ignore actions
-  "diffEditor.diffAlgorithm": "advanced",          // Better word-level diffs
-  "diffEditor.wordWrap": "on",                     // Match editor word wrap
+  "diffEditor.renderIndicators": true,
+  "diffEditor.codeLens": true,
+  "diffEditor.diffAlgorithm": "advanced",
+  "diffEditor.wordWrap": "on",
   "diffEditor.maxComputationTime": 15000,
 
   // --------------------------------------------------------------------------
   // Editor Navigation Enhancements
   // --------------------------------------------------------------------------
-  "workbench.editor.enablePreview": false,         // Always open files (no preview)
-  "workbench.editor.highlightModifiedTabs": true,  // Highlight unsaved files
-  "workbench.editor.decorations.badges": true,     // Show git status on tabs
-  "workbench.editor.closeOnFileDelete": true,      // Close deleted files
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.editor.decorations.badges": true,
+  "workbench.editor.closeOnFileDelete": true,
 
   // --------------------------------------------------------------------------
-  // Breadcrumbs Enhancement
+  // Performance: File Exclusions
   // --------------------------------------------------------------------------
-  "breadcrumbs.symbolPath": "on",
-  "breadcrumbs.symbolSortOrder": "position",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/target": true
+  },
+
+  "files.watcherExclude": {
+    "**/target/**": true,
+    "**/.m2/**": true,
+    "**/node_modules/**": true
+  },
+
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/target": true,
+    "**/.m2": true,
+    "**/dist": true,
+    "**/.vscode": false
+  },
+
+  "search.followSymlinks": false,
 
   // --------------------------------------------------------------------------
-  // Sticky Scroll Optimization
+  // Java (SDKMAN is source of truth)
   // --------------------------------------------------------------------------
-  "editor.stickyScroll.maxLineCount": 5,
-  "editor.stickyScroll.defaultModel": "outlineModel",
-  "workbench.editor.labelFormat": "short",
-  "explorer.compactFolders": false,
-  "editor.guides.bracketPairs": true,
-  "projectManager.openInNewWindowWhenClickingInStatusBar": true,
-  "errorLens.statusBarColorsEnabled": true,
-  "errorLens.statusBarMessageType": "closestSeverity",
-  "errorLens.followCursor": "closestProblem",
-  "errorLens.scrollbarHackEnabled": true,
-  "errorLens.fontStyleItalic": true,
-  "errorLens.messageBackgroundMode": "message",
+  "java.configuration.detectJdksAtStart": true,
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.jdt.ls.java.home": "/home/shane/.sdkman/candidates/java/current",
+  "java.import.gradle.java.home": "/home/shane/.sdkman/candidates/java/current",
+  "java.jdt.ls.vmargs": "-XX:+UseZGC -Xms2g -Xmx8g",
+
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.maxConcurrentBuilds": 12,
+  "java.sources.organizeImports.staticStarThreshold": 1,
+  "java.autobuild.enabled": true,
+
+  "java.completion.importOrder": ["java", "javax", "org", "com"],
+  "java.saveActions.organizeImports": true,
+
+  "java.import.exclusions": [
+    "**/node_modules/**",
+    "**/.metadata/**",
+    "**/archetype-resources/**"
+  ],
+
+  "java.debug.settings.hotCodeReplace": "never",
+  "java.debug.settings.showToString": false,
+  "java.debug.settings.showLogicalStructure": false,
+  "java.debug.settings.maxStringLength": 300,
+  "java.debug.settings.stepping.skipSynthetics": true,
+  "java.debug.settings.stepping.skipStaticInitializers": true,
+  "java.debug.settings.stepping.skipConstructors": true,
+
+  "debug.inlineValues": "off",
+  "debug.autoExpandLazyVariables": "off",
+
+  "java.debug.settings.stepping.skipClasses": [
+    "$JDK",
+    "$Libraries",
+    "java.*",
+    "javax.*",
+    "org.springframework.*",
+    "org.apache.*",
+    "org.slf4j.*",
+    "ch.qos.logback.*",
+    "reactor.core.*",
+    "kotlin.*"
+  ],
+
+  // --------------------------------------------------------------------------
+  // Maven / PlantUML follow SDKMAN
+  // --------------------------------------------------------------------------
+  "maven.terminal.customEnv": [
+    {
+      "environmentVariable": "JAVA_HOME",
+      "value": "/home/shane/.sdkman/candidates/java/current"
+    }
+  ],
+
+  "plantuml.java": "/home/shane/.sdkman/candidates/java/current/bin/java",
+
+  // --------------------------------------------------------------------------
+  // Disable competing language servers
+  // --------------------------------------------------------------------------
+  "netbeans.javaSupport.enabled": false,
+  "kotlin.languageServer.enabled": false,
+  "kotlin.debugAdapter.enabled": false,
+  "geminicodeassist.displayInlineContextHint": false,
+  "docker.extension.enableComposeLanguageServer": false,
   "jdk.telemetry.enabled": false,
+
+  // --------------------------------------------------------------------------
+  // Project Manager
+  // --------------------------------------------------------------------------
+  "projectManager.openInNewWindowWhenClickingInStatusBar": true
 }

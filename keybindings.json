@@ -100,5 +100,66 @@
     {
         "key": "cmd+shift+e",
         "command": "workbench.view.explorer"
+    },
+
+    // =========================================================================
+    // Quick Theme Switching (Age 48+ optimized for long sessions)
+    // =========================================================================
+    // F9: Warm cream theme (best for extended reading, low eye strain)
+    {
+        "key": "f9",
+        "command": "workbench.action.setEditorLayout",
+        "args": {
+            "orientation": 0,
+            "groups": [{}]
+        }
+    },
+    {
+        "key": "f9",
+        "command": "workbench.colorTheme",
+        "args": "Solarized Light"
+    },
+
+    // F10: Cool blue theme (high clarity for debugging)
+    {
+        "key": "f10",
+        "command": "workbench.colorTheme",
+        "args": "GitHub Light Default"
+    },
+
+    // F11: Soft dark theme (evening sessions, reduced brightness)
+    {
+        "key": "f11",
+        "command": "workbench.colorTheme",
+        "args": "GitHub Dark Dimmed"
+    },
+
+    // F12: Full dark theme (low-light environments)
+    {
+        "key": "f12",
+        "command": "workbench.colorTheme",
+        "args": "GitHub Dark Default"
+    },
+
+    // Alternative: Ctrl+K Ctrl+1/2/3/4 for theme switching
+    {
+        "key": "ctrl+k ctrl+1",
+        "command": "workbench.colorTheme",
+        "args": "Solarized Light"
+    },
+    {
+        "key": "ctrl+k ctrl+2",
+        "command": "workbench.colorTheme",
+        "args": "GitHub Light Default"
+    },
+    {
+        "key": "ctrl+k ctrl+3",
+        "command": "workbench.colorTheme",
+        "args": "GitHub Dark Dimmed"
+    },
+    {
+        "key": "ctrl+k ctrl+4",
+        "command": "workbench.colorTheme",
+        "args": "GitHub Dark Default"
     }
 ]
