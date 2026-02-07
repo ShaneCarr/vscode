@@ -10,13 +10,10 @@
         {
             "label": "Theme: Warm (Solarized Light)",
             "type": "shell",
-            "command": "bash",
-            "args": [
-                "-c",
-                "sed -i 's/\"workbench.colorTheme\": \".*\"/\"workbench.colorTheme\": \"Solarized Light\"/' ~/.config/Code/User/settings.json && notify-send '🌅 Theme' 'Switched to Warm (Solarized Light)' 2>/dev/null || echo '✅ Switched to Warm (Solarized Light)'"
-            ],
+            "command": "${env:HOME}/.local/bin/vscode-theme-switch",
+            "args": ["Solarized Light"],
             "presentation": {
-                "reveal": "never",
+                "reveal": "silent",
                 "close": true,
                 "panel": "shared"
             },
@@ -25,13 +22,10 @@
         {
             "label": "Theme: Cool (GitHub Light)",
             "type": "shell",
-            "command": "bash",
-            "args": [
-                "-c",
-                "sed -i 's/\"workbench.colorTheme\": \".*\"/\"workbench.colorTheme\": \"GitHub Light Default\"/' ~/.config/Code/User/settings.json && notify-send '💙 Theme' 'Switched to Cool (GitHub Light)' 2>/dev/null || echo '✅ Switched to Cool (GitHub Light)'"
-            ],
+            "command": "${env:HOME}/.local/bin/vscode-theme-switch",
+            "args": ["GitHub Light Default"],
             "presentation": {
-                "reveal": "never",
+                "reveal": "silent",
                 "close": true,
                 "panel": "shared"
             },
@@ -40,13 +34,10 @@
         {
             "label": "Theme: Dim (GitHub Dark Dimmed)",
             "type": "shell",
-            "command": "bash",
-            "args": [
-                "-c",
-                "sed -i 's/\"workbench.colorTheme\": \".*\"/\"workbench.colorTheme\": \"GitHub Dark Dimmed\"/' ~/.config/Code/User/settings.json && notify-send '🌙 Theme' 'Switched to Dim (GitHub Dark Dimmed)' 2>/dev/null || echo '✅ Switched to Dim (GitHub Dark Dimmed)'"
-            ],
+            "command": "${env:HOME}/.local/bin/vscode-theme-switch",
+            "args": ["GitHub Dark Dimmed"],
             "presentation": {
-                "reveal": "never",
+                "reveal": "silent",
                 "close": true,
                 "panel": "shared"
             },

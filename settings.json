@@ -17,7 +17,7 @@
   // Preferred themes (positive polarity by day, low-halation by night)
   "workbench.preferredLightColorTheme": "GitHub Light Default",
   "workbench.preferredDarkColorTheme": "GitHub Dark Dimmed",
-  "workbench.colorTheme": "Solarized Light",
+  "workbench.colorTheme": "GitHub Light Default",
   "workbench.fontAliasing": "antialiased",
 
   // 3-Theme System (48+ optimized, easy toggle):

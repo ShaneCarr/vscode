@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+"""
+VS Code Theme Switcher
+Usage: vscode-theme-switch <theme-name>
+"""
+import json
+import sys
+import os
+from pathlib import Path
+
+def switch_theme(theme_name):
+    # Find VS Code settings.json
+    settings_paths = [
+        Path.home() / ".config/Code/User/settings.json",
+        Path.home() / ".config/VSCodium/User/settings.json",
+        Path.home() / ".vscode/settings.json",
+    ]
+
+    settings_file = None
+    for path in settings_paths:
+        if path.exists():
+            settings_file = path
+            break
+
+    if not settings_file:
+        print(f"❌ Could not find VS Code settings.json")
+        print(f"Searched: {[str(p) for p in settings_paths]}")
+        return False
+
+    try:
+        # Read current settings
+        with open(settings_file, 'r') as f:
+            content = f.read()
+
+        # Parse JSON (with comments support - just do string replacement)
+        import re
+
+        # Find and replace the colorTheme setting
+        pattern = r'"workbench\.colorTheme"\s*:\s*"[^"]*"'
+        replacement = f'"workbench.colorTheme": "{theme_name}"'
+
+        if re.search(pattern, content):
+            new_content = re.sub(pattern, replacement, content)
+        else:
+            # Add the setting if it doesn't exist (before the last closing brace)
+            new_content = content.rstrip()
+            if new_content.endswith('}'):
+                new_content = new_content[:-1].rstrip()
+                if new_content.endswith(','):
+                    new_content += f'\n  "workbench.colorTheme": "{theme_name}"\n}}\n'
+                else:
+                    new_content += f',\n  "workbench.colorTheme": "{theme_name}"\n}}\n'
+
+        # Write back
+        with open(settings_file, 'w') as f:
+            f.write(new_content)
+
+        print(f"✅ Theme switched to: {theme_name}")
+
+        # Try to send notification
+        theme_emoji = {
+            "Solarized Light": "🌅",
+            "GitHub Light Default": "💙",
+            "GitHub Dark Dimmed": "🌙"
+        }
+        emoji = theme_emoji.get(theme_name, "🎨")
+        os.system(f'notify-send "{emoji} Theme" "Switched to {theme_name}" 2>/dev/null')
+
+        return True
+
+    except Exception as e:
+        print(f"❌ Error switching theme: {e}")
+        return False
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: vscode-theme-switch <theme-name>")
+        print('Example: vscode-theme-switch "Solarized Light"')
+        sys.exit(1)
+
+    theme = sys.argv[1]
+    success = switch_theme(theme)
+    sys.exit(0 if success else 1)
